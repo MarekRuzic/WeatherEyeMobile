@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1024284554792",
+    "firebase_url": "https://create-your-exercise-plan-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "create-your-exercise-plan",
+    "storage_bucket": "create-your-exercise-plan.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1024284554792:android:18652f6ec749b9b7c0671d",
+        "android_client_info": {
+          "package_name": "com.hoth.weatherapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZEfbrupVZjSy6igtm2ccSgiq3KTjXt4k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
