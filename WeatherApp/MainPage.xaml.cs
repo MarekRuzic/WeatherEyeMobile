@@ -26,6 +26,11 @@ namespace WeatherApp
             var token = await CrossFirebaseCloudMessaging.Current.GetTokenAsync();
             Console.WriteLine($"FCM token: {token}");
         }
+        
+        private void OnClickedCount(object sender, EventArgs e)
+        {
+            DisplayAlert("Ahoj", "Ahoj", "Ok");
+        }
     }
 
 }

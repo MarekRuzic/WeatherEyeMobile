@@ -1,6 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
+#if ANDROID
 using Plugin.Firebase.Core.Platforms.Android;
+#endif
+using UraniumUI;
 
 namespace WeatherApp;
 
@@ -12,7 +15,9 @@ public static class MauiProgram
 		builder
 			.UseMauiApp<App>()
 			.RegisterFirebaseServices()
-			.ConfigureFonts(fonts =>
+			.UseUraniumUI()
+			.UseUraniumUIMaterial()
+            .ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
@@ -29,8 +34,10 @@ public static class MauiProgram
 	{
 
         builder.ConfigureLifecycleEvents(events => {
+#if ANDROID
 			events.AddAndroid(android => android.OnCreate((activity, _) =>
 			CrossFirebase.Initialize(activity)));
+#endif
         });
 
         return builder;
