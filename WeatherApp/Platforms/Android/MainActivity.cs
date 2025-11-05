@@ -16,10 +16,10 @@ public class MainActivity : MauiAppCompatActivity
     {
         base.OnCreate(savedInstanceState);        
 
-        if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.PostNotifications) != Permission.Granted)
+        /*if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.PostNotifications) != Permission.Granted)
         {
             ActivityCompat.RequestPermissions(this, new[] { Manifest.Permission.PostNotifications }, 0);
-        }
+        }*/
 
         HandleIntent(Intent);
         CreateNotificationChannelIfNeeded();

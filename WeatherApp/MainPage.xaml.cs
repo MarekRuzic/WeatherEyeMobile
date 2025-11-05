@@ -9,6 +9,32 @@ namespace WeatherApp
         public MainPage()
         {
             InitializeComponent();
+            isNotificationEnable();
+            App.AppResumed += (s, e) => isNotificationEnable();
+        }
+
+        protected async void isNotificationEnable()
+        {
+            if (DeviceInfo.Platform != DevicePlatform.Android) return;
+
+            var status = await Permissions.CheckStatusAsync<Permissions.PostNotifications>();
+            if (status != PermissionStatus.Granted)
+            {
+                CheckBoxNotificationCheck.IsVisible = true;
+                NoticationLineBreak.IsVisible = true;
+            }
+            else
+            {
+                CheckBoxNotificationCheck.IsVisible = false;
+                NoticationLineBreak.IsVisible = false;
+            }
+
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            isNotificationEnable();
         }
 
         private async void OnCounterClicked(object sender, EventArgs e)
@@ -30,6 +56,37 @@ namespace WeatherApp
         private void OnClickedCount(object sender, EventArgs e)
         {
             DisplayAlert("Ahoj", "Ahoj", "Ok");
+        }
+
+        bool isHandlingCheckChange = false;
+        private async void CheckChange_NotificationEnable(object sender, EventArgs e)
+        {
+            if (isHandlingCheckChange)
+                return;
+
+            isHandlingCheckChange = true;
+
+            if (DeviceInfo.Platform != DevicePlatform.Android)
+            { 
+                isHandlingCheckChange = false;
+                return;
+            }
+
+            bool openSettings = await DisplayAlert(
+                    "Notifikace zakázány",
+                    "Pro správné fungování aplikace prosím povolte notifikace v nastavení systému.",
+                    "Otevřít nastavení",
+                    "Zrušit");
+
+            if (openSettings)
+            {
+                AppInfo.ShowSettingsUI();
+            }
+            else
+            {
+                CheckBoxNotificationCheck.IsChecked = false;
+            }
+            isHandlingCheckChange = false;
         }
     }
 

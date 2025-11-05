@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             x:Class="WeatherApp.FirstTimeLoginPage"
+             Title="FirstTimeLoginPage">
+    <VerticalStackLayout HorizontalOptions="Center">
+        <Label 
+            Text="Vítejte v aplikaci, která vás bude porozňovat před vážným počasím."
+            HorizontalTextAlignment="Center"
+            HorizontalOptions="Center"
+            Margin="10"/>
+
+        <material:CheckBox 
+            x:Name="CheckBoxNotificationCheck"
+            Text="Notifikace"
+            HorizontalOptions="Center"
+            CheckChanged="CheckChange_Notification"
+            Margin="10"/>
+
+        <!-- Neviditelný prvek, který vytlačí tlačítko dolů -->
+        <BoxView HeightRequest="0" VerticalOptions="FillAndExpand"/>
+
+        <Button 
+            Text="Přejít na úvodní stranu →"
+            StyleClass="ElevatedButton"
+            HorizontalOptions="Fill"
+            VerticalOptions="End"
+            Clicked="OnClickGoToMainPage"
+            Margin="10"/>
+
+    </VerticalStackLayout>
+</ContentPage>

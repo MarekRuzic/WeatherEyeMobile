@@ -2,12 +2,30 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             Shell.FlyoutBehavior="Flyout"
              x:Class="WeatherApp.MainPage">
 
     <ScrollView>
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
+
+            <material:CheckBox 
+                x:Name="CheckBoxNotificationCheck"
+                Text="Povolit notifikace"
+                HorizontalOptions="End"
+                CheckChanged="CheckChange_NotificationEnable"
+                Margin="10"
+                IsVisible="False"/>
+
+            <!-- Čára -->
+            <BoxView 
+                HeightRequest="2"
+                HorizontalOptions="Fill"
+                x:Name="NoticationLineBreak"
+                Color="Black"
+                IsVisible="False"/>
+
             <Image
                 Source="dotnet_bot.png"
                 HeightRequest="185"

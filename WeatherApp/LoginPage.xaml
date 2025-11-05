@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             x:Class="WeatherApp.LoginPage">
+    <VerticalStackLayout 
+        VerticalOptions="Center"
+        Margin="20">
+        <material:TextField
+            Title="Username or email"
+            AllowClear="True"
+            ReturnType="Next"
+            Margin="10"/>
+        <material:TextField 
+            Title="Password" 
+            IsPassword="True"
+            AllowClear="True"
+            ReturnType="Done"
+            Margin="10">
+            <material:TextField.Attachments>
+                <material:TextFieldPasswordShowHideAttachment />
+            </material:TextField.Attachments>
+        </material:TextField>
+        <Button 
+            StyleClass="ElevatedButton" 
+            Text="Login"
+            HorizontalOptions="Center"
+            Clicked="OnClickLogin"
+            Margin="10"
+            MaximumWidthRequest="100"/>
+        <Button 
+            Text="Registrovat se?"
+            HorizontalOptions="Center"
+            TextColor="{DynamicResource Primary}"
+            Clicked="OnClickRegistration"
+            Margin="10"/>
+
+
+    </VerticalStackLayout>
+</ContentPage>
