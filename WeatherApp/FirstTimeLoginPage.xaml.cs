@@ -1,4 +1,7 @@
-﻿namespace WeatherApp;
+﻿using Plugin.Firebase.CloudMessaging;
+using System.Text.Json;
+
+namespace WeatherApp;
 
 public partial class FirstTimeLoginPage : ContentPage
 {
@@ -7,6 +10,8 @@ public partial class FirstTimeLoginPage : ContentPage
 		InitializeComponent();
 		PageLoad();
 	}
+
+    private bool isHandlingCheckChange = false;
 
     protected async void PageLoad()
     {
@@ -24,6 +29,7 @@ public partial class FirstTimeLoginPage : ContentPage
                 status = await Permissions.RequestAsync<Permissions.PostNotifications>();
             }
 
+            isHandlingCheckChange = true;
             if (status == PermissionStatus.Granted)
             {
                 CheckBoxNotificationCheck.IsChecked = true;
@@ -34,13 +40,14 @@ public partial class FirstTimeLoginPage : ContentPage
                 CheckBoxNotificationCheck.IsChecked = false;
                 await DisplayAlert("Povolení", "Notifikace nebyly povoleny ❌", "OK");
             }
-        }
-    
-        
+            isHandlingCheckChange = false;
+        }    
     }
 
     private async void CheckChange_Notification(object sender, EventArgs e)
     {
+        if (isHandlingCheckChange) return;
+
         bool openSettings = await DisplayAlert(
                     "Notifikace zakázány",
                     "Pro správné fungování aplikace prosím povolte notifikace v nastavení systému.",
@@ -62,8 +69,30 @@ public partial class FirstTimeLoginPage : ContentPage
         }
     }
 
-    private void OnClickGoToMainPage(object sender, EventArgs e)
+    private async void GetFirebaseToken()
     {
+        await CrossFirebaseCloudMessaging.Current.CheckIfValidAsync();
+        var token = await CrossFirebaseCloudMessaging.Current.GetTokenAsync();
+        Console.WriteLine($"FCM token: {token}");  
+        
+        SaveTokenToJSON(token);
+    }
+
+    private async void SaveTokenToJSON(string token)
+    {
+        FirebaseToken firebaseToken = new FirebaseToken(token);
+        string json = JsonSerializer.Serialize(firebaseToken, new JsonSerializerOptions { WriteIndented = true });
+        string filePath = Path.Combine(FileSystem.AppDataDirectory, "token.json");
+
+        await File.WriteAllTextAsync(filePath, json);
+
+        await DisplayAlert("Hotovo", $"Token uložen do:\n{filePath}", "OK");
+    }
+
+    private async void OnClickGoToMainPage(object sender, EventArgs e)
+    {
+        GetFirebaseToken();
+
         App.Current.MainPage = new NavigationPage(new MainPage());
     }
 }

@@ -19,9 +19,4 @@ public partial class LoginPage : ContentPage
         }
         App.Current.MainPage = new NavigationPage(new MainPage());	
     }
-
-    private async void OnClickRegistration(object sender, EventArgs e)
-    {
-        await Navigation.PushAsync(new RegistrationPage());
-    }
 }

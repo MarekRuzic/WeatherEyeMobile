@@ -1,4 +1,7 @@
 ﻿using Plugin.Firebase.CloudMessaging;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
 
 namespace WeatherApp
 {
@@ -51,11 +54,31 @@ namespace WeatherApp
             await CrossFirebaseCloudMessaging.Current.CheckIfValidAsync();
             var token = await CrossFirebaseCloudMessaging.Current.GetTokenAsync();
             Console.WriteLine($"FCM token: {token}");
+
+
         }
-        
+
+        private async Task<string> LoadTokenFromJSON()
+        {
+            string filePath = Path.Combine(FileSystem.AppDataDirectory, "token.json");
+
+            if (!File.Exists(filePath))
+            {
+                await DisplayAlert("Chyba", "Soubor s tokenem neexistuje.", "OK");
+                return null;
+            }
+
+            string json = await File.ReadAllTextAsync(filePath);
+            var tokenData = JsonSerializer.Deserialize<FirebaseToken>(json);
+
+            await DisplayAlert("Token načten", $"Token: {tokenData.token}", "OK");
+            return tokenData.token;
+        }
+
         private void OnClickedCount(object sender, EventArgs e)
         {
             DisplayAlert("Ahoj", "Ahoj", "Ok");
+            LoadTokenFromJSON();
         }
 
         bool isHandlingCheckChange = false;
@@ -87,7 +110,7 @@ namespace WeatherApp
                 CheckBoxNotificationCheck.IsChecked = false;
             }
             isHandlingCheckChange = false;
-        }
+        }        
     }
 
 }

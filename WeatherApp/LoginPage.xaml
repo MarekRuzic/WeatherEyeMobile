@@ -28,13 +28,6 @@
             Clicked="OnClickLogin"
             Margin="10"
             MaximumWidthRequest="100"/>
-        <Button 
-            Text="Registrovat se?"
-            HorizontalOptions="Center"
-            TextColor="{DynamicResource Primary}"
-            Clicked="OnClickRegistration"
-            Margin="10"/>
-
 
     </VerticalStackLayout>
 </ContentPage>

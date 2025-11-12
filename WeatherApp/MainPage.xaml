@@ -45,7 +45,7 @@
 
             <Button
                 x:Name="CounterBtn"
-                Text="Click me" 
+                Text="Vypiš token do konzole" 
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Fill" />
@@ -53,15 +53,8 @@
             <Button 
                 Margin="10"
                 StyleClass="FilledButton" 
-                Text="Filled Button"
+                Text="Zobraz token z JSON souboru do MessageBoxu"
                 x:Name="Pokus"
-                Clicked="OnClickedCount"/>
-
-            <Button 
-                Margin="10"
-                StyleClass="OutlinedButton" 
-                Text="Filled Button"
-                x:Name="Pokus2"
                 Clicked="OnClickedCount"/>
 
             <material:TextField Title="Name" AllowClear="True" />
