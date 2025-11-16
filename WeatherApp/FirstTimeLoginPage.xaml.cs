@@ -9,7 +9,8 @@ public partial class FirstTimeLoginPage : ContentPage
 	{
 		InitializeComponent();
 		PageLoad();
-	}
+        App.AppResumed += (s, e) => CheckNotification();
+    }
 
     private bool isHandlingCheckChange = false;
 
@@ -20,7 +21,11 @@ public partial class FirstTimeLoginPage : ContentPage
             "Pomocí zaškrtávacího políčka budete informováni o stavu, zda máte notifikace zaponuté.", "Ok");
 
 
+        CheckNotification();      
+    }
 
+    protected async void CheckNotification()
+    {
         if (DeviceInfo.Platform == DevicePlatform.Android)
         {
             var status = await Permissions.CheckStatusAsync<Permissions.PostNotifications>();
@@ -33,6 +38,10 @@ public partial class FirstTimeLoginPage : ContentPage
             if (status == PermissionStatus.Granted)
             {
                 CheckBoxNotificationCheck.IsChecked = true;
+                CheckBoxNotificationCheck.IsEnabled = false;
+                NotificationImage.Source = "notification_bell_enabled.png";
+                Notification_Info.Text = "(Notifikace jsou povolené)";
+
                 await DisplayAlert("Povolení", "Notifikace byly povoleny ✅", "OK");
             }
             else
@@ -41,7 +50,7 @@ public partial class FirstTimeLoginPage : ContentPage
                 await DisplayAlert("Povolení", "Notifikace nebyly povoleny ❌", "OK");
             }
             isHandlingCheckChange = false;
-        }    
+        }
     }
 
     private async void CheckChange_Notification(object sender, EventArgs e)
@@ -53,6 +62,8 @@ public partial class FirstTimeLoginPage : ContentPage
                     "Pro správné fungování aplikace prosím povolte notifikace v nastavení systému.",
                     "Otevřít nastavení",
                     "Zrušit");
+
+        isHandlingCheckChange = true;
 
         if (openSettings)
         {
@@ -67,6 +78,8 @@ public partial class FirstTimeLoginPage : ContentPage
             if (status == PermissionStatus.Granted) CheckBoxNotificationCheck.IsChecked = true;
             else CheckBoxNotificationCheck.IsChecked = false;
         }
+
+        isHandlingCheckChange = false;
     }
 
     private async void GetFirebaseToken()
@@ -93,6 +106,6 @@ public partial class FirstTimeLoginPage : ContentPage
     {
         GetFirebaseToken();
 
-        App.Current.MainPage = new NavigationPage(new MainPage());
-    }
+        App.Current.MainPage = new NavigationPage(new MainTabbedPage());
+    }    
 }

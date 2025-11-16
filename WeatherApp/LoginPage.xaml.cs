@@ -17,6 +17,6 @@ public partial class LoginPage : ContentPage
             App.Current.MainPage = new NavigationPage(new FirstTimeLoginPage());
             return;
         }
-        App.Current.MainPage = new NavigationPage(new MainPage());	
+        App.Current.MainPage = new NavigationPage(new MainTabbedPage());	
     }
 }

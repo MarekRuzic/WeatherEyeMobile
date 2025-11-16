@@ -2,32 +2,89 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
-             x:Class="WeatherApp.LoginPage">
-    <VerticalStackLayout 
-        VerticalOptions="Center"
-        Margin="20">
-        <material:TextField
-            Title="Username or email"
-            AllowClear="True"
-            ReturnType="Next"
-            Margin="10"/>
-        <material:TextField 
-            Title="Password" 
-            IsPassword="True"
-            AllowClear="True"
-            ReturnType="Done"
-            Margin="10">
-            <material:TextField.Attachments>
-                <material:TextFieldPasswordShowHideAttachment />
-            </material:TextField.Attachments>
-        </material:TextField>
-        <Button 
-            StyleClass="ElevatedButton" 
-            Text="Login"
-            HorizontalOptions="Center"
-            Clicked="OnClickLogin"
-            Margin="10"
-            MaximumWidthRequest="100"/>
+             xmlns:nav="clr-namespace:Microsoft.Maui.Controls;assembly=Microsoft.Maui.Controls"
+             nav:NavigationPage.HasNavigationBar="False"
+             x:Class="WeatherApp.LoginPage"
+             BackgroundColor="#F3F7FF">
+    
+    <Grid RowDefinitions="Auto, *, Auto"
+          Padding="20">
 
-    </VerticalStackLayout>
+        <!-- HORNÍ OBRÁZEK -->
+        <Image Grid.Row="0"
+               Source="weather.png"
+               Aspect="AspectFill"
+               HeightRequest="250"
+               WidthRequest="250"
+               HorizontalOptions="Fill"
+               VerticalOptions="Start" />
+
+        <!-- LOGIN BOX -->
+        <Frame Grid.Row="1"
+               Padding="20"
+               BackgroundColor="White"
+               CornerRadius="18"
+               HasShadow="True"
+               VerticalOptions="Center"
+               HorizontalOptions="Center"
+               WidthRequest="330">
+
+            <VerticalStackLayout Spacing="16">
+
+                <Label Text="Přihlášení"
+                       FontSize="26"
+                       FontAttributes="Bold"
+                       HorizontalTextAlignment="Center" />
+
+                <material:TextField
+                    Title="Uživatelské jméno nebo email"
+                    AllowClear="True"
+                    ReturnType="Next"
+                    Keyboard="Email"
+                    HeightRequest="48"/>
+                <material:TextField 
+                    Title="Heslo" 
+                    IsPassword="True"
+                    AllowClear="True"
+                    ReturnType="Done"
+                    HeightRequest="48">
+                    <material:TextField.Attachments>
+                        <material:TextFieldPasswordShowHideAttachment />
+                    </material:TextField.Attachments>
+                </material:TextField>               
+
+                <Button Text="Přihlásit se"
+                        HeightRequest="50"
+                        CornerRadius="12"
+                        StyleClass="ElevatedButton" 
+                        TextColor="White"
+                        FontSize="18"
+                        Clicked="OnClickLogin" />
+
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- SPODNÍ ODKAZY -->
+        <VerticalStackLayout Grid.Row="2"
+                             Spacing="6"
+                             VerticalOptions="End"
+                             HorizontalOptions="Center">
+
+            <Label Text="Zapomněli jste heslo?"
+                   TextColor="#555"
+                   FontSize="14" />
+
+            <HorizontalStackLayout Spacing="4">
+                <Label Text="Nemáte účet?"
+                       FontSize="14" />
+                <Label Text="Registrace"
+                       FontSize="14"
+                       TextColor="#3B82F6"
+                       FontAttributes="Bold" />
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+
+    </Grid>     
+    
 </ContentPage>
