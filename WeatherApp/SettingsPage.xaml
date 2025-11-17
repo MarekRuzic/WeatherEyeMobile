@@ -46,7 +46,7 @@
 
                         <material:CheckBox  
                             x:Name="CheckBoxNotificationCheck"
-                            IsChecked="True"
+                            IsChecked="True"                            
                             CheckChanged="CheckChange_Notification" />
                     </HorizontalStackLayout>
 
