@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
+using WeatherApp.Services;
 #if ANDROID
 using Plugin.Firebase.Core.Platforms.Android;
 #endif
@@ -27,7 +28,9 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
 
-		return builder.Build();
+        builder.Services.AddSingleton<NotificationService>();
+
+        return builder.Build();
 	}
 
 	private static MauiAppBuilder RegisterFirebaseServices(this MauiAppBuilder builder)

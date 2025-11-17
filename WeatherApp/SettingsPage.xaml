@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             xmlns:nav="clr-namespace:Microsoft.Maui.Controls;assembly=Microsoft.Maui.Controls"
+             nav:NavigationPage.HasNavigationBar="False"
+             x:Class="WeatherApp.SettingsPage"
+             Title="Nastavení"
+             BackgroundColor="#F3F7FF">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="22">
+
+            <!-- NADPIS -->
+            <Label Text="Nastavení"
+                   FontSize="32"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   Margin="0,10,0,20" />
+
+            <!-- SEKCE: NOTIFIKACE -->
+            <Frame CornerRadius="14"
+                   Padding="20"
+                   HasShadow="True"
+                   BackgroundColor="White">
+
+                <VerticalStackLayout Spacing="18" HorizontalOptions="Center">
+
+                    <Label Text="Upozornění"
+                           FontSize="22"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+
+                    <!-- Ikona notifikací -->
+                    <Image x:Name="NotificationImage"
+                           Source="notification_bell_enabled.png"
+                           WidthRequest="110"
+                           HeightRequest="110"
+                           Opacity="0.9" />
+
+                    <!-- Stav + checkbox -->
+                    <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                        <Label Text="Povolit notifikace"
+                               FontSize="18"
+                               VerticalOptions="Center" />
+
+                        <material:CheckBox  
+                            x:Name="CheckBoxNotificationCheck"
+                            IsChecked="True"
+                            CheckChanged="CheckChange_Notification" />
+                    </HorizontalStackLayout>
+
+                    <Button Text="Spravovat notifikace"
+                            HeightRequest="44"
+                            CornerRadius="10"
+                            StyleClass="ElevatedButton"
+                            FontSize="15"
+                            TextColor="White" />
+                </VerticalStackLayout>
+
+            </Frame>
+
+
+            <!-- SEKCE: OBLAST -->
+            <Frame CornerRadius="14"
+                   Padding="20"
+                   HasShadow="True"
+                   BackgroundColor="White">
+
+                <VerticalStackLayout Spacing="16">
+
+                    <Label Text="Výběr oblasti"
+                           FontSize="20"
+                           FontAttributes="Bold"/>
+
+                    <material:PickerField 
+                        Title="Vyberte oblast"
+                        ItemsSource="{Binding Regions}"
+                        SelectedItem="{Binding SelectedRegion}"
+                        WidthRequest="250"/>
+                </VerticalStackLayout>
+            </Frame>
+
+
+            <!-- SEKCE: TYP UDÁLOSTI -->
+            <Frame CornerRadius="14"
+                   Padding="20"
+                   HasShadow="True"
+                   BackgroundColor="White">
+
+                <VerticalStackLayout Spacing="16">
+
+                    <Label Text="Typ události"
+                           FontSize="20"
+                           FontAttributes="Bold"/>
+
+                    <material:PickerField 
+                        Title="Vyberte typ události"
+                        ItemsSource="{Binding EventTypes}"
+                        SelectedItem="{Binding SelectedEventType}"
+                        WidthRequest="250"/>
+                </VerticalStackLayout>
+            </Frame>
+
+
+            <!-- SEKCE: SÍLA HROZBY -->
+            <Frame CornerRadius="14"
+                   Padding="20"
+                   HasShadow="True"
+                   BackgroundColor="White">
+
+                <VerticalStackLayout Spacing="16">
+
+                    <Label Text="Síla hrozby"
+                           FontSize="20"
+                           FontAttributes="Bold"/>
+
+                    <material:PickerField 
+                        Title="Vyberte sílu hrozby"
+                        ItemsSource="{Binding ThreatLevels}"
+                        SelectedItem="{Binding SelectedThreatLevel}"
+                        WidthRequest="250"/>
+                </VerticalStackLayout>
+            </Frame>
+
+
+            <!-- SEKCE: ZPŮSOB UPOZORNĚNÍ -->
+            <Frame CornerRadius="14"
+                   Padding="20"
+                   HasShadow="True"
+                   BackgroundColor="White">
+
+                <VerticalStackLayout Spacing="16">
+
+                    <Label Text="Způsob upozornění"
+                           FontSize="20"
+                           FontAttributes="Bold"/>
+
+                    <HorizontalStackLayout Spacing="8">
+                        <material:CheckBox
+                            x:Name="AppNotificationCheck"
+                            IsChecked="True"/>
+                        <Label Text="Upozornění v aplikaci"
+                               VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Spacing="8">
+                        <material:CheckBox
+                            x:Name="EmailNotificationCheck"
+                            IsChecked="False"/>
+                        <Label Text="Upozornění emailem"
+                               VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+
+                </VerticalStackLayout>
+
+            </Frame>
+
+
+            <!-- TLAČÍTKO ULOŽIT -->
+            <Button Text="Uložit nastavení"
+                    HeightRequest="50"
+                    CornerRadius="14"
+                    StyleClass="ElevatedButton"
+                    TextColor="White"
+                    FontSize="18"
+                    Margin="0,20,0,30" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

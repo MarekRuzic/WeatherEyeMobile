@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <TabbedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+            android:TabbedPage.ToolbarPlacement="Bottom"
             xmlns:local="clr-namespace:WeatherApp"
-            x:Class="WeatherApp.MainTabbedPage"
-            Title="MainTabbedPage">
-    <local:MainPage></local:MainPage>    
+            x:Class="WeatherApp.MainTabbedPage"            
+            BarBackgroundColor="#F3F7FF">
+    <local:MainPage Title="Domov" IconImageSource="home_icon.png"></local:MainPage>
+    <local:AlertPage Title="Upozornění" IconImageSource="alert_icon.png"></local:AlertPage>
+    <local:SettingsPage Title="Nastavení" IconImageSource="settings_icon.png"></local:SettingsPage>
 </TabbedPage>
