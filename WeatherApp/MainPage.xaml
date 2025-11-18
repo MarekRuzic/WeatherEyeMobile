@@ -21,7 +21,9 @@
 
             <!-- COLLECTION VIEW -->
             <CollectionView ItemsSource="{Binding WeatherItems}"
-                            SelectionMode="None">
+                            SelectionMode="None"
+                            RemainingItemsThreshold="1"
+                            RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}">
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
