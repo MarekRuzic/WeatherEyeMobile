@@ -12,6 +12,10 @@ namespace WeatherApp.ViewModel
     public class WeatherListViewModel: INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private int batchSize = 15;
+        private int loadedCount = 0;
+
         public ObservableCollection<WeatherRecord> WeatherItems { get; set; } = new ObservableCollection<WeatherRecord>();
 
         public WeatherListViewModel()
@@ -21,50 +25,28 @@ namespace WeatherApp.ViewModel
 
         private void LoadFakeData()
         {
-            WeatherItems.Add(new WeatherRecord
+            for (int i = 0; i < 50; i++)
             {
-                Date = new DateTime(2025, 11, 19),
-                TemperatureC = 30,
-                Summary = "Mild",
-                Icon = "weather.png"
-            });
-
-            WeatherItems.Add(new WeatherRecord
-            {
-                Date = new DateTime(2025, 11, 20),
-                TemperatureC = 46,
-                Summary = "Chilly",
-                Icon = "weather.png"
-            });
-
-            WeatherItems.Add(new WeatherRecord
-            {
-                Date = new DateTime(2025, 11, 21),
-                TemperatureC = 14,
-                Summary = "Freezing",
-                Icon = "weather.png"
-            });
-
-            WeatherItems.Add(new WeatherRecord
-            {
-                Date = new DateTime(2025, 11, 22),
-                TemperatureC = 21,
-                Summary = "Mild",
-                Icon = "weather.png"
-            });
-
-            WeatherItems.Add(new WeatherRecord
-            {
-                Date = new DateTime(2025, 11, 23),
-                TemperatureC = 12,
-                Summary = "Scorching",
-                Icon = "weather.png"
-            });
-
-            for (int i = 0; i < 10; i++)
-            {
-
+                WeatherItems.Add(
+                    weatherRecord(
+                        DateTime.Now.AddDays(-i), 
+                        Random.Shared.Next(-10, 35),
+                        WeatherCategoryExtensions.GetRandomSummary()
+                    )
+                );
             }
+        }
+
+        private WeatherRecord weatherRecord(DateTime date, double temperature, string summary)
+        {
+            string icon = WeatherCategoryExtensions.GetImagePath(summary);
+            return new WeatherRecord
+            {
+                Date = date,
+                TemperatureC = temperature,
+                Summary = summary,
+                Icon = icon
+            };
         }
     }
 }
