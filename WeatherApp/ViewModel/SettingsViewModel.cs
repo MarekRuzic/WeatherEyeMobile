@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WeatherApp
+namespace WeatherApp.ViewModel
 {
     public class SettingsViewModel
     {

@@ -50,12 +50,13 @@
                             CheckChanged="CheckChange_Notification" />
                     </HorizontalStackLayout>
 
-                    <Button Text="Spravovat notifikace"
+                    <Button Text="Nefungují mi notifikace"
                             HeightRequest="44"
                             CornerRadius="10"
                             StyleClass="ElevatedButton"
                             FontSize="15"
-                            TextColor="White" />
+                            TextColor="White"
+                            Clicked="NotificationButtonClicked"/>
                 </VerticalStackLayout>
 
             </Frame>
@@ -164,7 +165,8 @@
                     StyleClass="ElevatedButton"
                     TextColor="White"
                     FontSize="18"
-                    Margin="0,20,0,30" />
+                    Margin="0,20,0,30"
+                    Clicked="SaveSettingsClicked"/>
 
         </VerticalStackLayout>
     </ScrollView>

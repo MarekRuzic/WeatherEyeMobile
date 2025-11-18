@@ -1,63 +1,72 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              x:Class="WeatherApp.MainPage"
              BackgroundColor="#F3F7FF">
 
     <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
+        <VerticalStackLayout 
+            Padding="20" 
+            Spacing="20">
 
-            <material:CheckBox 
-                x:Name="CheckBoxNotificationCheck"
-                Text="Povolit notifikace"
-                HorizontalOptions="End"
-                CheckChanged="CheckChange_NotificationEnable"
-                Margin="10"
-                IsVisible="False"/>
+            <!-- NADPIS -->
+            <Label Text="Počasí"
+                   FontSize="32"
+                   FontAttributes="Bold"
+                   TextColor="#1E293B"
+                   HorizontalTextAlignment="Center"
+                   Margin="0,20,0,10"/>
 
-            <!-- Čára -->
-            <BoxView 
-                HeightRequest="2"
-                HorizontalOptions="Fill"
-                x:Name="NoticationLineBreak"
-                Color="Black"
-                IsVisible="False"/>
+            <!-- COLLECTION VIEW -->
+            <CollectionView ItemsSource="{Binding WeatherItems}"
+                            SelectionMode="None">
 
-            <Image
-                Source="dotnet_bot.png"
-                HeightRequest="185"
-                Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a hovercraft number nine" />
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
 
-            <Label
-                Text="Hello, World!"
-                Style="{StaticResource Headline}"
-                SemanticProperties.HeadingLevel="Level1" />
+                        <Frame Padding="15"
+                               Margin="0,0,0,15"
+                               CornerRadius="18"
+                               HasShadow="True"
+                               BackgroundColor="White">
 
-            <Label
-                Text="Welcome to &#10;.NET Multi-platform App UI"
-                Style="{StaticResource SubHeadline}"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
+                            <HorizontalStackLayout Spacing="15">
 
-            <Button
-                x:Name="CounterBtn"
-                Text="Vypiš token do konzole" 
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Fill" />
+                                <!-- Ikona počasí -->
+                                <Image Source="{Binding Icon}"
+                                       WidthRequest="50"
+                                       HeightRequest="50"/>
 
-            <Button 
-                Margin="10"
-                StyleClass="FilledButton" 
-                Text="Zobraz token z JSON souboru do MessageBoxu"
-                x:Name="Pokus"
-                Clicked="OnClickedCount"/>
+                                <!-- Obsah -->
+                                <VerticalStackLayout Spacing="3">
 
-            <material:TextField Title="Name" AllowClear="True" />
+                                    <Label Text="{Binding Date, StringFormat='{0:dd.MM.yyyy}'}"
+                                           FontSize="20"
+                                           FontAttributes="Bold"/>
+
+                                    <HorizontalStackLayout Spacing="10">
+                                        <Label Text="{Binding TemperatureC, StringFormat='{0} °C'}"
+                                               FontSize="14"
+                                               TextColor="#0F172A"/>
+                                        <Label Text="{Binding TemperatureF, StringFormat='{0} °F'}"
+                                               FontSize="14"
+                                               TextColor="#64748B"/>
+                                    </HorizontalStackLayout>
+
+                                    <Label Text="{Binding Summary}"
+                                           FontSize="16"
+                                           TextColor="#2563EB"
+                                           FontAttributes="Bold"/>
+
+                                </VerticalStackLayout>
+
+                            </HorizontalStackLayout>
+
+                        </Frame>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
         </VerticalStackLayout>
     </ScrollView>
