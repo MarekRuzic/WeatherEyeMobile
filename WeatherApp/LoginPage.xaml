@@ -37,29 +37,36 @@
                        HorizontalTextAlignment="Center" />
 
                 <material:TextField
+                    x:Name="Email"
                     Title="Uživatelské jméno nebo email"
                     AllowClear="True"
                     ReturnType="Next"
                     Keyboard="Email"
-                    HeightRequest="48"/>
+                    HeightRequest="48"
+                    TextColor="Black"/>
                 <material:TextField 
+                    x:Name="Password"
                     Title="Heslo" 
                     IsPassword="True"
                     AllowClear="True"
                     ReturnType="Done"
-                    HeightRequest="48">
+                    HeightRequest="48"
+                    TextColor="Black">
                     <material:TextField.Attachments>
                         <material:TextFieldPasswordShowHideAttachment />
                     </material:TextField.Attachments>
                 </material:TextField>               
 
-                <Button Text="Přihlásit se"
+                <Button x:Name="LoginButton"
+                        Text="Přihlásit se"
                         HeightRequest="50"
                         CornerRadius="12"
                         StyleClass="ElevatedButton" 
                         TextColor="White"
                         FontSize="18"
                         Clicked="OnClickLogin" />
+
+                <ActivityIndicator x:Name="LoadingIndicator" IsRunning="True" IsVisible="False"/>
 
             </VerticalStackLayout>
         </Frame>

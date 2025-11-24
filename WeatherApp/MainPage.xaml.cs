@@ -3,6 +3,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using WeatherApp.Model;
+using WeatherApp.ModelAuth;
 using WeatherApp.ViewModel;
 
 namespace WeatherApp
@@ -13,7 +14,7 @@ namespace WeatherApp
         {
             InitializeComponent();      
             BindingContext = new WeatherListViewModel();
-        }        
+        }
     }
 
 }

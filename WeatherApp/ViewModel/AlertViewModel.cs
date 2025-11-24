@@ -46,7 +46,7 @@ namespace WeatherApp.ViewModel
                 //Area = SelectedRegion,
                 Onset = DateTime.Now,
                 Expires = DateTime.MinValue,
-                Icon = "wind.png"
+                Icon = "sunny.png"
             });
 
             Alerts.Add(new AlertRecord
