@@ -4,8 +4,14 @@
              xmlns:local="clr-namespace:WeatherApp"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              x:Class="WeatherApp.App">
-    <Application.Resources>
+    <Application.Resources>        
         <ResourceDictionary>
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="#512BD4"/>
+                <Setter Property="BarTextColor" Value="White"/>
+                <Setter Property="TitleIconImageSource" Value="myicon.png"/>
+                <Setter Property="IconColor" Value="White"/>
+            </Style>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />

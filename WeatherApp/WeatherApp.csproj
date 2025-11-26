@@ -78,6 +78,9 @@
 		<GoogleServicesJson Include="google-services.json" />
 	</ItemGroup>
 	<ItemGroup>
+	  <MauiXaml Update="AlertDetailPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="AlertPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -1,11 +1,15 @@
 ﻿using Plugin.Firebase.CloudMessaging;
 using System.Text.Json;
+using WeatherApp.Model;
+using WeatherApp.Services;
 
 namespace WeatherApp;
 
 public partial class FirstTimeLoginPage : ContentPage
 {
-	public FirstTimeLoginPage()
+    private readonly NotificationService _notificationService = new();
+
+    public FirstTimeLoginPage()
 	{
 		InitializeComponent();
 		PageLoad();
@@ -26,31 +30,23 @@ public partial class FirstTimeLoginPage : ContentPage
 
     protected async void CheckNotification()
     {
-        if (DeviceInfo.Platform == DevicePlatform.Android)
+        bool granted = await _notificationService.RequestNotificationPermissionAsync();
+
+        if (granted)
         {
-            var status = await Permissions.CheckStatusAsync<Permissions.PostNotifications>();
-            if (status != PermissionStatus.Granted)
-            {
-                status = await Permissions.RequestAsync<Permissions.PostNotifications>();
-            }
+            CheckBoxNotificationCheck.IsChecked = true;
+            CheckBoxNotificationCheck.IsEnabled = false;
+            NotificationImage.Source = "notification_bell_enabled.png";
+            Notification_Info.Text = "(Notifikace jsou povolené)";
 
-            isHandlingCheckChange = true;
-            if (status == PermissionStatus.Granted)
-            {
-                CheckBoxNotificationCheck.IsChecked = true;
-                CheckBoxNotificationCheck.IsEnabled = false;
-                NotificationImage.Source = "notification_bell_enabled.png";
-                Notification_Info.Text = "(Notifikace jsou povolené)";
-
-                await DisplayAlert("Povolení", "Notifikace byly povoleny ✅", "OK");
-            }
-            else
-            {
-                CheckBoxNotificationCheck.IsChecked = false;
-                await DisplayAlert("Povolení", "Notifikace nebyly povoleny ❌", "OK");
-            }
-            isHandlingCheckChange = false;
+            await DisplayAlert("Povolení", "Notifikace byly povoleny ✅", "OK");
         }
+        else
+        {
+            CheckBoxNotificationCheck.IsChecked = false;
+            await DisplayAlert("Povolení", "Notifikace nebyly povoleny ❌", "OK");
+        }
+        isHandlingCheckChange = false;        
     }
 
     private async void CheckChange_Notification(object sender, EventArgs e)
@@ -67,28 +63,21 @@ public partial class FirstTimeLoginPage : ContentPage
 
         if (openSettings)
         {
-            AppInfo.ShowSettingsUI();
-            var status = await Permissions.CheckStatusAsync<Permissions.PostNotifications>();
-            if (status == PermissionStatus.Granted) CheckBoxNotificationCheck.IsChecked = true;
-            else CheckBoxNotificationCheck.IsChecked = false;
+            AppInfo.ShowSettingsUI();            
         }
-        else
-        {
-            var status = await Permissions.CheckStatusAsync<Permissions.PostNotifications>();
-            if (status == PermissionStatus.Granted) CheckBoxNotificationCheck.IsChecked = true;
-            else CheckBoxNotificationCheck.IsChecked = false;
-        }
+        CheckBoxNotificationCheck.IsChecked = false;
 
         isHandlingCheckChange = false;
     }
 
-    private async void GetFirebaseToken()
+    private async Task<string> GetFirebaseToken()
     {
+        string token = string.Empty;
         await CrossFirebaseCloudMessaging.Current.CheckIfValidAsync();
-        var token = await CrossFirebaseCloudMessaging.Current.GetTokenAsync();
-        Console.WriteLine($"FCM token: {token}");  
-        
-        SaveTokenToJSON(token);
+        token = await CrossFirebaseCloudMessaging.Current.GetTokenAsync();
+        Console.WriteLine($"FCM token: {token}");
+
+        return token;        
     }
 
     private async void SaveTokenToJSON(string token)
@@ -104,7 +93,8 @@ public partial class FirstTimeLoginPage : ContentPage
 
     private async void OnClickGoToMainPage(object sender, EventArgs e)
     {
-        GetFirebaseToken();
+        string token = await GetFirebaseToken();
+        SaveTokenToJSON(token);
 
         App.Current.MainPage = new NavigationPage(new MainTabbedPage());
     }    

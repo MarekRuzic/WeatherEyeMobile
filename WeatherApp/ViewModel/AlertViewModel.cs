@@ -10,11 +10,23 @@ namespace WeatherApp.ViewModel
 {
     public class AlertViewModel
     {
+        public Command<AlertRecord> OpenDetailCommand { get; }
+
+
         public ObservableCollection<AlertRecord> Alerts { get; set; } = new ObservableCollection<AlertRecord>();
 
         public AlertViewModel()
         {
+            OpenDetailCommand = new Command<AlertRecord>(OpenDetail);
             LoadFakeAlerts();
+        }
+
+        private async void OpenDetail(AlertRecord alert)
+        {
+            if (alert == null)
+                return;
+
+            await Application.Current.MainPage.Navigation.PushAsync(new AlertDetailPage(alert));
         }
 
         private void LoadFakeAlerts()
@@ -29,7 +41,7 @@ namespace WeatherApp.ViewModel
                 Urgency = "Immediate",
                 Description = "Momentálně nejsou hlášeny žádné problémy.",
                 Instruction = "",
-                //Area = SelectedRegion,
+                Area = "Vysočina",
                 Onset = DateTime.Now,
                 Expires = DateTime.MinValue,
                 Icon = "weather.png"

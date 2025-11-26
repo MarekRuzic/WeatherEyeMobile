@@ -16,7 +16,23 @@ namespace WeatherApp.Model
         public string Instruction { get; set; }
         public string Area { get; set; }
         public DateTime Onset { get; set; }
-        public DateTime Expires { get; set; }
+        private DateTime? _expires;
+        public DateTime? Expires
+        {
+            get => _expires;
+            set
+            {
+                // Pokud je DateTime.MinValue nebo defaultní → ulož null
+                if (value == null || value == DateTime.MinValue || value.Value.Year == 1)
+                {
+                    _expires = null;
+                }
+                else
+                {
+                    _expires = value;
+                }
+            }
+        }
 
         public string Icon { get; set; }
 

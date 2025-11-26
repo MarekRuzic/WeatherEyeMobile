@@ -68,12 +68,16 @@
                                         <Label Text="{Binding Area}"
                                            FontSize="14"
                                            TextColor="#475569"/>
-                                    </VerticalStackLayout>
 
+                                        <HorizontalStackLayout>
+                                            <Label Text="{Binding Onset}"/>
+                                            <Label Text="{Binding Expires}"/>
+                                        </HorizontalStackLayout>
+                                    </VerticalStackLayout>                                    
                                 </HorizontalStackLayout>
-
-                                
-
+                                <Button Text="Zobrazit detail"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenDetailCommand}"
+                                        CommandParameter="{Binding}"/>
                             </VerticalStackLayout>
 
                         </Frame>

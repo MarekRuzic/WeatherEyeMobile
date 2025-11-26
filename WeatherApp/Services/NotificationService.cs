@@ -23,5 +23,19 @@ namespace WeatherApp.Services
 
             return status == PermissionStatus.Granted;
         }
+
+        public async Task<bool> RequestNotificationPermissionAsync()
+        {
+            if (DeviceInfo.Platform != DevicePlatform.Android)
+                return true;
+
+            PermissionStatus status = await Permissions.CheckStatusAsync<Permissions.PostNotifications>();
+            if (status != PermissionStatus.Granted)
+            {
+                status = await Permissions.RequestAsync<Permissions.PostNotifications>();
+            }
+
+            return status == PermissionStatus.Granted;
+        }
     }
 }

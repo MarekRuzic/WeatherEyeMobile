@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WeatherApp.AlertDetailPage"
+             BackgroundColor="#F3F7FF"
+             Title="Detail upozornění">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="18">
+
+            <!-- BAREVNÝ HEADER -->
+            <Frame CornerRadius="12"
+                   Padding="15"
+                   HasShadow="True"
+                   BackgroundColor="White">
+
+                <HorizontalStackLayout Spacing="18">
+
+                    <!-- BARVA SEVERITY -->
+                    <BoxView WidthRequest="10"
+                             VerticalOptions="Fill"
+                             Color="{Binding SeverityColor}"
+                             CornerRadius="5"/>
+
+                    <!-- IKONA -->
+                    <Image Source="{Binding Icon}"
+                           WidthRequest="55"
+                           HeightRequest="55"
+                           VerticalOptions="Center"/>
+
+                    <!-- TEXTY -->
+                    <VerticalStackLayout Spacing="4" VerticalOptions="Center">
+
+                        <Label Text="{Binding Event}"
+                               FontSize="24"
+                               FontAttributes="Bold"
+                               TextColor="#0F172A"/>
+
+                        <Label Text="{Binding Severity}"
+                               FontSize="16"
+                               TextColor="#475569"/>
+
+                        <Label Text="{Binding Area}"
+                               FontSize="14"
+                               TextColor="#64748B"/>
+                    </VerticalStackLayout>
+
+                </HorizontalStackLayout>
+            </Frame>
+
+
+            <!-- ČASOVÉ ÚDAJE -->
+            <Frame CornerRadius="12" Padding="15" BackgroundColor="White" HasShadow="True">
+                <VerticalStackLayout Spacing="8">
+
+                    <Label Text="Časové údaje"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="#1E293B"/>
+
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="10">
+
+                        <Label Text="Začátek:" Grid.Row="0" Grid.Column="0" TextColor="#475569"/>
+                        <Label Text="{Binding Onset, StringFormat='{0:dd.MM.yyyy HH:mm}'}"
+                               Grid.Row="0" Grid.Column="1" TextColor="#0F172A"/>
+
+                        <Label Text="Konec:" Grid.Row="1" Grid.Column="0" TextColor="#475569"/>
+                        <Label Text="{Binding Expires, StringFormat='{0:dd.MM.yyyy HH:mm}'}"
+                               Grid.Row="1" Grid.Column="1" TextColor="#0F172A"/>
+                    </Grid>
+
+                </VerticalStackLayout>
+            </Frame>
+
+
+            <!-- DETAILY ALERTU -->
+            <Frame CornerRadius="12" Padding="15" BackgroundColor="White" HasShadow="True">
+                <VerticalStackLayout Spacing="10">
+
+                    <Label Text="Podrobnosti"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="#1E293B"/>
+
+                    <Label Text="Určení" TextColor="#64748B"/>
+                    <Label Text="{Binding Certainty}" FontSize="15"/>
+
+                    <Label Text="Urgence" TextColor="#64748B" Margin="0,10,0,0"/>
+                    <Label Text="{Binding Urgency}" FontSize="15"/>
+
+                    <Label Text="Závažnost" TextColor="#64748B" Margin="0,10,0,0"/>
+                    <Label Text="{Binding Severity}" FontSize="15"/>
+                </VerticalStackLayout>
+            </Frame>
+
+
+            <!-- POPIS -->
+            <Frame CornerRadius="12" Padding="15" BackgroundColor="White" HasShadow="True">
+                <VerticalStackLayout Spacing="10">
+
+                    <Label Text="Popis"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="#1E293B"/>
+
+                    <Label Text="{Binding Description}"
+                           FontSize="15"
+                           TextColor="#1E293B"/>
+                </VerticalStackLayout>
+            </Frame>
+
+
+            <!-- INSTRUKCE -->
+            <Frame CornerRadius="12" Padding="15" BackgroundColor="White" HasShadow="True">
+                <VerticalStackLayout Spacing="10">
+
+                    <Label Text="Instrukce"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="#1E293B"/>
+
+                    <Label Text="{Binding Instruction}"
+                           FontSize="15"
+                           TextColor="#1E293B"/>
+                </VerticalStackLayout>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
