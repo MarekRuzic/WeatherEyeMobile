@@ -37,6 +37,7 @@
                        HorizontalTextAlignment="Center" />
 
                 <material:TextField
+                    
                     x:Name="Email"
                     Title="Uživatelské jméno nebo email"
                     AllowClear="True"
@@ -45,6 +46,7 @@
                     HeightRequest="48"
                     TextColor="Black"/>
                 <material:TextField 
+                    
                     x:Name="Password"
                     Title="Heslo" 
                     IsPassword="True"

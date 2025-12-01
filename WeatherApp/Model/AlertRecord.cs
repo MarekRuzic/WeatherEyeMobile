@@ -8,14 +8,14 @@ namespace WeatherApp.Model
 {
     public class AlertRecord
     {
+        public string senderName {  get; set; }
         public string Event { get; set; }
+        public string Urgency { get; set; }
         public string Severity { get; set; }
         public string Certainty { get; set; }
-        public string Urgency { get; set; }
-        public string Description { get; set; }
-        public string Instruction { get; set; }
-        public string Area { get; set; }
+        public string Language { get; set; }
         public DateTime Onset { get; set; }
+
         private DateTime? _expires;
         public DateTime? Expires
         {
@@ -33,6 +33,10 @@ namespace WeatherApp.Model
                 }
             }
         }
+        public string Headline { get; set; }
+        public string Description { get; set; }
+        public string Instruction { get; set; }
+        public string AreaDesc { get; set; }
 
         public string Icon { get; set; }
 

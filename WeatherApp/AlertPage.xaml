@@ -2,15 +2,15 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:nav="clr-namespace:Microsoft.Maui.Controls;assembly=Microsoft.Maui.Controls"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              nav:NavigationPage.HasNavigationBar="False"
              x:Class="WeatherApp.AlertPage"
              Title="AlertPage"
              BackgroundColor="#F3F7FF">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15">
-
+    <ScrollView>        
+        <VerticalStackLayout Padding="20" Spacing="15">            
             <!-- Nadpis -->
             <Label Text="Výstrahy"
                FontSize="32"
@@ -20,11 +20,18 @@
                Margin="0,20,0,10"/>
 
             <!-- Výběr oblasti -->
-            <Picker ItemsSource="{Binding Regions}"
-                SelectedItem="{Binding SelectedRegion}"
+            <material:PickerField 
                 Title="Vyberte oblast"
+                 ItemsSource="{Binding Regions}"
+                SelectedItem="{Binding SelectedRegion}"
                 FontSize="18"
                 Margin="0,0,0,20"/>
+            
+
+            <VerticalStackLayout IsVisible="{Binding AlertsIndicatorIsVisible}">
+                <ActivityIndicator IsRunning="True" IsVisible="True"/>
+                <Label Text="Probíhá načítání dat..." HorizontalTextAlignment="Center"/>
+            </VerticalStackLayout>
 
             <!-- Seznam alertů -->
             <CollectionView ItemsSource="{Binding Alerts}"
@@ -46,7 +53,7 @@
 
                                     <!-- BAREVNÝ PRUH DLE SEVERITY -->
                                     <BoxView WidthRequest="8"
-                                         HeightRequest="45"
+                                         HeightRequest="60"
                                          VerticalOptions="Center"
                                          Color="{Binding SeverityColor}"
                                          CornerRadius="5"
@@ -63,14 +70,31 @@
                                         <Label Text="{Binding Event}"
                                            FontSize="18"
                                            FontAttributes="Bold"
-                                           TextColor="#0F172A"/>
+                                           TextColor="#0F172A"
+                                           WidthRequest="300"/>
 
-                                        <Label Text="{Binding Area}"
+                                        <Label Text="{Binding AreaDesc}"
                                            FontSize="14"
                                            TextColor="#475569"/>
 
                                         <HorizontalStackLayout>
-                                            <Label Text="{Binding Onset}"/>
+                                            <Label Text="Od: "/>
+                                            <Label Text="{Binding Onset}"/>                                            
+                                        </HorizontalStackLayout>
+                                        <HorizontalStackLayout>
+                                            <HorizontalStackLayout.Triggers>
+                                                <DataTrigger TargetType="HorizontalStackLayout"
+                                                             Binding="{Binding Expires}"
+                                                             Value="{x:Null}">
+                                                    <Setter Property="IsVisible" Value="False"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="HorizontalStackLayout"
+                                                    Binding="{Binding Expires}"
+                                                    Value="0001-01-01T00:00:00">
+                                                    <Setter Property="IsVisible" Value="False"/>
+                                                </DataTrigger>
+                                            </HorizontalStackLayout.Triggers>
+                                            <Label Text="Do: "/>
                                             <Label Text="{Binding Expires}"/>
                                         </HorizontalStackLayout>
                                     </VerticalStackLayout>                                    
@@ -86,7 +110,15 @@
                 </CollectionView.ItemTemplate>
 
             </CollectionView>
-
+            <Button x:Name="ShowMoreAlertsButton"
+                Text="Zobrazit více"
+                    Command="{Binding LoadMoreCommand}"
+                    IsVisible="{Binding CanLoadMore}"
+                    BackgroundColor="#2563EB"
+                    TextColor="White"
+                    CornerRadius="12"
+                    FontSize="18"
+                    Margin="0,10,0,20"/>
         </VerticalStackLayout>
     </ScrollView>
 

@@ -10,41 +10,52 @@ namespace WeatherApp.Services
 {    
     public class LoginService
     {
-        private readonly HttpClient _client;
+        private readonly HttpClient _httpClient;
         public LoginService() 
         {
-            _client = new HttpClient();
+            _httpClient = ApiClient.httpClient;
         }
 
         public async Task<AuthResponse?> LoginAsync(string username, string password)
         {
-            string url = "https://auth.weathereye.eu/realms/WeatherEye/protocol/openid-connect/token";
-
-            var parameters = new List<KeyValuePair<string, string>>
+            try
             {
-                new("grant_type", "password"),
-                new("client_id", "WeatherEyeWeb"),
-                new("scope", "email openid"),
-                new("username", username),
-                new("password", password)
-            };
+                string url = "https://auth.weathereye.eu/realms/WeatherEye/protocol/openid-connect/token";
 
-            FormUrlEncodedContent content = new FormUrlEncodedContent(parameters);
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url)
+                var parameters = new List<KeyValuePair<string, string>>
+                {
+                    new("grant_type", "password"),
+                    new("client_id", "WeatherEyeWeb"),
+                    new("scope", "email openid"),
+                    new("username", username),
+                    new("password", password)
+                };
+
+                FormUrlEncodedContent content = new FormUrlEncodedContent(parameters);
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url)
+                {
+                    Content = content
+                };
+
+                HttpResponseMessage response = await _httpClient.SendAsync(request);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return null;
+                }
+
+                var json = await response.Content.ReadAsStringAsync();
+
+                return JsonSerializer.Deserialize<AuthResponse>(json);
+            }
+            catch (TaskCanceledException)
             {
-                Content = content
-            };
-
-            HttpResponseMessage response = await _client.SendAsync(request);
-
-            if (!response.IsSuccessStatusCode)
+                return new AuthResponse { access_token = "TIMEOUT" };
+            }
+            catch
             {
                 return null;
             }
-
-            var json = await response.Content.ReadAsStringAsync();
-
-            return JsonSerializer.Deserialize<AuthResponse>(json);
         }
 
         public async Task<AuthResponse?> RefreshTokenAsync(string refreshToken)
@@ -59,7 +70,7 @@ namespace WeatherApp.Services
             };
 
             FormUrlEncodedContent content = new FormUrlEncodedContent(parameters);
-            HttpResponseMessage response = await _client.PostAsync(url, content);
+            HttpResponseMessage response = await _httpClient.PostAsync(url, content);
 
             if (!response.IsSuccessStatusCode)
                 return null;

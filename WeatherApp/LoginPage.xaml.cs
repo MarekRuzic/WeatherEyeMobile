@@ -39,6 +39,14 @@ public partial class LoginPage : ContentPage
 
         AuthResponse authResponseResult = await _loginService.LoginAsync(username, password);
 
+        // Timeout detekce
+        if (authResponseResult?.access_token == "TIMEOUT")
+        {
+            ShowLoadingIndicator(false);
+            await DisplayAlert("Chyba", "Server neodpovídá. Zkuste to prosím znovu. ⏱️", "OK");
+            return;
+        }
+
         if (authResponseResult == null)
         {
             await DisplayAlert("Chyba", "Nesprávné jméno/email nebo heslo 😅", "Ok");
