@@ -3,7 +3,7 @@ using WeatherApp.Model;
 
 public partial class AlertDetailPage : ContentPage
 {
-	public AlertDetailPage()
+    public AlertDetailPage()
 	{
 		InitializeComponent();
 	}

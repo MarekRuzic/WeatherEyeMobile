@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using WeatherApp.Model;
+using static System.Net.WebRequestMethods;
 
 namespace WeatherApp.Services
 {
@@ -32,6 +34,31 @@ namespace WeatherApp.Services
             catch
             {
                 return new List<AlertRecord>();
+            }
+        }
+
+        public async Task<List<string>> GetAvailableRegionsAsync()
+        {
+            try
+            {
+                string url = "https://api.weathereye.eu/CAP/AvailableRegions";
+                string json = await _httpClient.GetStringAsync(url);
+                Console.WriteLine("API Response: " + json);
+
+                var result = JsonSerializer.Deserialize<List<string>>(json);
+
+                if (result == null)
+                {
+                    Console.WriteLine("❗️Deserializace vrátila NULL");
+                    return new List<string>();
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("❗️GetAvailableRegionsAsync error: " + ex);
+                return new List<string>();
             }
         }
     }

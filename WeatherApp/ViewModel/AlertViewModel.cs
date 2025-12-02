@@ -14,6 +14,7 @@ namespace WeatherApp.ViewModel
     {
         private readonly WeatherApiService _api;        
         public ObservableCollection<AlertRecord> Alerts { get; set; } = new ObservableCollection<AlertRecord>();
+        public ObservableCollection<string> Regions { get; } = new ObservableCollection<string>();
 
         public Command<AlertRecord> OpenDetailCommand { get; }
         public Command LoadAlertsCommand { get; }
@@ -24,6 +25,12 @@ namespace WeatherApp.ViewModel
         private int _loadSize = 20;
         private int _loadedCount = 0;
 
+        // Slouží pro změny v UI
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string name) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+        // Stavy pro UI, aby se uživateli zobrazovali načítací kolečko a tlačítko
         private bool _canLoadMore;
         public bool CanLoadMore
         {
@@ -38,50 +45,82 @@ namespace WeatherApp.ViewModel
             set { _alertsIndicatorIsVisible = value; OnPropertyChanged(nameof(AlertsIndicatorIsVisible)); }
         }
 
+        private bool _moreAlertsIndicatorIsVisible = false;
+        public bool MoreAlertsIndicatorIsVisible
+        {
+            get => _moreAlertsIndicatorIsVisible;
+            set { _moreAlertsIndicatorIsVisible = value; OnPropertyChanged(nameof(MoreAlertsIndicatorIsVisible)); }
+        }
+
+        // VYBRANÝ REGION + ukládání preferencí
         private string _selectedRegion;
         public string SelectedRegion
         {
             get => _selectedRegion;
             set
             {
+                if (_selectedRegion == value)
+                    return;
+
                 _selectedRegion = value;
                 OnPropertyChanged(nameof(SelectedRegion));
 
-                // Kdykoli se změní region → přenačti alerty
+                // uložíme uživatelskou volbu
+                if (!string.IsNullOrEmpty(value))
+                    Preferences.Set("SelectedRegion", value);
+
+                AlertsIndicatorIsVisible = true;
+                CanLoadMore = false;
+                // přenačtení alertů
                 _ = LoadAlertsAsync();
             }
         }
 
-        public ObservableCollection<string> Regions { get; set; }
-
 
         public AlertViewModel()
         {
-            Regions = new ObservableCollection<string>
-{
-    "Hlavní město Praha",
-    "Středočeský kraj",
-    "Jihočeský kraj",
-    "Plzeňský kraj",
-    "Karlovarský kraj",
-    "Ústecký kraj",
-    "Liberecký kraj",
-    "Královéhradecký kraj",
-    "Pardubický kraj",
-    "Kraj Vysočina",
-    "Jihomoravský kraj",
-    "Olomoucký kraj",
-    "Zlínský kraj",
-    "Moravskoslezský kraj"
-};
-
             _api = new WeatherApiService();
 
             OpenDetailCommand = new Command<AlertRecord>(OpenDetail);
             LoadAlertsCommand = new Command(async () => await LoadAlertsAsync());
-            LoadMoreCommand = new Command(LoadMore);
+            LoadMoreCommand = new Command(async () => await LoadMoreWithActivityIndicator());
 
-            Task.Run(async () => await LoadAlertsAsync());
+            Task.Run(async () =>
+            {
+                await LoadRegionsAsync();
+
+                // Načtení preferovaného regionu
+                SelectedRegion = "";
+                string savedRegion = Preferences.Get("SelectedRegion", null);
+                if(!string.IsNullOrEmpty(savedRegion) && Regions.Contains(savedRegion))
+                {
+                    SelectedRegion = savedRegion;
+                }
+
+                await LoadAlertsAsync();
+            });
+        }
+
+        private async Task LoadRegionsAsync()
+        {
+            try
+            {
+                List<string> regions = await _api.GetAvailableRegionsAsync();
+                Regions.Clear();
+
+                Console.WriteLine(regions.Count + "\n\n" + regions.First());
+
+                foreach (string region in regions)
+                {
+                    Regions.Add(region);
+                    Console.WriteLine(region);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Region load error {ex}");
+            }
+            
         }
 
         private async Task LoadAlertsAsync()
@@ -93,18 +132,28 @@ namespace WeatherApp.ViewModel
 
                 _allAlerts = await _api.GetAlertsAsync(_selectedRegion);
 
-                foreach (AlertRecord item in _allAlerts)
+                foreach (AlertRecord alert in _allAlerts)
                 {
                     // Pokud API neposílá ikonku — přiřadíme podle severity
-                    item.Icon ??= "sunny.png";
+                    alert.Icon ??= "sunny.png";
                 }
 
                 LoadMore();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("API error: " + ex);
+                Console.WriteLine($"API error: {ex}");
             }
+        }
+
+        private async Task LoadMoreWithActivityIndicator()
+        {
+            MoreAlertsIndicatorIsVisible = true;
+            CanLoadMore = false;
+
+            await Task.Delay(100);
+
+            LoadMore();
         }
 
         private void LoadMore()
@@ -118,6 +167,7 @@ namespace WeatherApp.ViewModel
             _loadedCount += nextItems.Count;
 
             AlertsIndicatorIsVisible = false;
+            MoreAlertsIndicatorIsVisible = false;
             CanLoadMore = _loadedCount < _allAlerts.Count;
         }
 
@@ -127,10 +177,6 @@ namespace WeatherApp.ViewModel
                 return;
 
             await Application.Current.MainPage.Navigation.PushAsync(new AlertDetailPage(alert));
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged(string name) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }       
     }
 }

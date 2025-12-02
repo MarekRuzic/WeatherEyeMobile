@@ -36,7 +36,8 @@
                                FontSize="24"
                                FontAttributes="Bold"
                                TextColor="#0F172A"                              
-                               WidthRequest="500"/>
+                               MaximumWidthRequest="3000"
+                               HorizontalTextAlignment="Start"/>
 
                         <Label Text="{Binding Severity}"
                                FontSize="16"
@@ -44,7 +45,10 @@
 
                         <Label Text="{Binding AreaDesc}"
                                FontSize="14"
-                               TextColor="#64748B"/>
+                               TextColor="#64748B"
+                               WidthRequest="200"
+                               LineBreakMode="WordWrap"
+                               HorizontalTextAlignment="Start"/>
                     </VerticalStackLayout>
 
                 </HorizontalStackLayout>
