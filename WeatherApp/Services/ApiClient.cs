@@ -10,6 +10,7 @@ namespace WeatherApp.Services
     {
         public static readonly HttpClient httpClient = new HttpClient
         {
+            BaseAddress = new Uri("https://api.weathereye.eu/"),
             Timeout = TimeSpan.FromSeconds(30)
         };
     }

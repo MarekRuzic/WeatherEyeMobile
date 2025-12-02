@@ -54,8 +54,9 @@
 
 
         <!-- SPODNÍ ČÁST - TLAČÍTKO -->
-        <Button Grid.Row="2"
-                Text="Pokračovat"
+        <Button x:Name="SaveMobileTokenButton"
+                Grid.Row="2"
+                Text="Pokračovat a uložit"
                 HeightRequest="55"
                 FontSize="18"
                 CornerRadius="12"
@@ -64,6 +65,11 @@
                 Margin="0,10,0,20"
                 VerticalOptions="End"
                 Clicked="OnClickGoToMainPage"/>
+
+        <VerticalStackLayout Grid.Row="2" x:Name="LoadingIndicator" IsVisible="False"  HorizontalOptions="Center" VerticalOptions="End">
+            <ActivityIndicator IsRunning="True" IsVisible="true"/>
+            <Label Text="Probíhá ukládání dat..."/>
+        </VerticalStackLayout>
 
     </Grid>
 </ContentPage>

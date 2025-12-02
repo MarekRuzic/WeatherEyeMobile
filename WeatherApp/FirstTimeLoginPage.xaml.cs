@@ -7,6 +7,7 @@ namespace WeatherApp;
 
 public partial class FirstTimeLoginPage : ContentPage
 {
+    private readonly UserApiService _userApiService = new UserApiService();
     private readonly NotificationService _notificationService = new();
 
     public FirstTimeLoginPage()
@@ -31,7 +32,7 @@ public partial class FirstTimeLoginPage : ContentPage
     protected async void CheckNotification()
     {
         bool granted = await _notificationService.RequestNotificationPermissionAsync();
-
+        isHandlingCheckChange = true;
         if (granted)
         {
             CheckBoxNotificationCheck.IsChecked = true;
@@ -93,8 +94,26 @@ public partial class FirstTimeLoginPage : ContentPage
 
     private async void OnClickGoToMainPage(object sender, EventArgs e)
     {
+        SaveMobileTokenButton.IsVisible = false;
+        LoadingIndicator.IsVisible = true;
         string token = await GetFirebaseToken();
-        SaveTokenToJSON(token);
+        //string token = "Muj_testToken";
+        bool result = await _userApiService.SaveMobAppIdAsync(token);
+        if (!result)
+        {
+            result = await DisplayAlert("Problém s uložením údajů", "Při ukládání údajů k notifikacím došlo k chybě.\n\n" +
+                "Proto Vám zřejmě nebudou notifikace chodit.\n\n" +
+                "Doporučujeme si uložení opakovat!\n\n" +
+                "Případně můžete znovu tuto akci provést v nastavení.\n\n" +
+                "Přejete si opakovat uložení?", "Ano", "Ne");
+
+            if (result)
+            {
+                SaveMobileTokenButton.IsVisible = true;
+                LoadingIndicator.IsVisible = false;
+                return;
+            }
+        }
 
         App.Current.MainPage = new NavigationPage(new MainTabbedPage());
     }    

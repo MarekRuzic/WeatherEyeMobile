@@ -23,8 +23,7 @@ namespace WeatherApp.Services
         {
             try
             {
-                string url = $"https://api.weathereye.eu/CAP/Alarms?language={language}&region={region}";
-
+                string url = $"CAP/Alarms?language={language}&region={region}";
                 var result = await _httpClient.GetFromJsonAsync<List<AlertRecord>>(url);
 
                 if (result == null)
@@ -41,7 +40,7 @@ namespace WeatherApp.Services
         {
             try
             {
-                string url = "https://api.weathereye.eu/CAP/AvailableRegions";
+                string url = "CAP/AvailableRegions";
                 string json = await _httpClient.GetStringAsync(url);
                 Console.WriteLine("API Response: " + json);
 
