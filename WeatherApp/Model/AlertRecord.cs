@@ -38,6 +38,8 @@ namespace WeatherApp.Model
         public string Instruction { get; set; }
         public string AreaDesc { get; set; }
 
+        public string SpecificAreaDesc { get; set; }
+
         public string Icon { get; set; }
 
         public string SeverityColor =>

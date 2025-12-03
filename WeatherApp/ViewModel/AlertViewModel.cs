@@ -12,9 +12,10 @@ namespace WeatherApp.ViewModel
 {
     public class AlertViewModel : INotifyPropertyChanged
     {
-        private readonly WeatherApiService _api;        
+        private readonly WeatherApiService _api;
         public ObservableCollection<AlertRecord> Alerts { get; set; } = new ObservableCollection<AlertRecord>();
         public ObservableCollection<string> Regions { get; } = new ObservableCollection<string>();
+        public ObservableCollection<string> RegionsSpecific { get; set; } = new ObservableCollection<string>();
 
         public Command<AlertRecord> OpenDetailCommand { get; }
         public Command LoadAlertsCommand { get; }
@@ -22,7 +23,7 @@ namespace WeatherApp.ViewModel
 
         private List<AlertRecord> _allAlerts = new List<AlertRecord>();
 
-        private int _loadSize = 20;
+        private int _loadSize = 10;
         private int _loadedCount = 0;
 
         // Slouží pro změny v UI
@@ -71,8 +72,28 @@ namespace WeatherApp.ViewModel
 
                 AlertsIndicatorIsVisible = true;
                 CanLoadMore = false;
-                // přenačtení alertů
+
                 _ = LoadAlertsAsync();
+                _ = LoadRegionsSpecificAsync(_selectedRegion);
+            }
+        }
+
+        private string _selectedRegionSpecific;
+        public string SelectedRegionSpecific
+        {
+            get => _selectedRegionSpecific;
+            set
+            {
+                if (_selectedRegionSpecific != value)
+                {
+                    _selectedRegionSpecific = value;
+                    OnPropertyChanged(nameof(SelectedRegionSpecific));
+
+                    AlertsIndicatorIsVisible = true;
+                    CanLoadMore = false;
+
+                    _ = OnSpecificRegionChangedAsync();
+                }
             }
         }
 
@@ -93,7 +114,7 @@ namespace WeatherApp.ViewModel
                 // Načtení preferovaného regionu
                 SelectedRegion = "";
                 string savedRegion = Preferences.Get("SelectedRegion", null);
-                if(!string.IsNullOrEmpty(savedRegion) && Regions.Contains(savedRegion))
+                if (!string.IsNullOrEmpty(savedRegion) && Regions.Contains(savedRegion))
                 {
                     SelectedRegion = savedRegion;
                 }
@@ -109,20 +130,36 @@ namespace WeatherApp.ViewModel
                 List<string> regions = await _api.GetAvailableRegionsAsync();
                 Regions.Clear();
 
-                Console.WriteLine(regions.Count + "\n\n" + regions.First());
-
                 foreach (string region in regions)
                 {
                     Regions.Add(region);
-                    Console.WriteLine(region);
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Region load error {ex}");
             }
-            
         }
+
+        private async Task LoadRegionsSpecificAsync(string selectedRegion)
+        {            
+            try
+            {
+                List<string> regionsSpecific = await _api.GetAvailableRegionsSpecificAsync(selectedRegion);
+                RegionsSpecific.Clear();
+
+                foreach (string region in regionsSpecific)
+                {
+                    RegionsSpecific.Add(region);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Regions specific: {ex}");
+            }
+        }
+
+
 
         private async Task LoadAlertsAsync()
         {
@@ -136,7 +173,7 @@ namespace WeatherApp.ViewModel
                 foreach (AlertRecord alert in _allAlerts)
                 {
                     // Pokud API neposílá ikonku — přiřadíme podle severity
-                    alert.Icon ??= "sunny.png";
+                    alert.Icon ??= "weather.png";
                 }
 
                 LoadMore();
@@ -158,18 +195,31 @@ namespace WeatherApp.ViewModel
         }
 
         private void LoadMore()
-        {           
-            List<AlertRecord> nextItems = _allAlerts.Skip(_loadedCount).Take(_loadSize).ToList();            
+        {
+            List<AlertRecord> nextItems = _allAlerts.Skip(_loadedCount).Take(_loadSize).ToList();
             foreach (AlertRecord item in nextItems)
             {
                 Alerts.Add(item);
             }
-            
+
             _loadedCount += nextItems.Count;
 
             AlertsIndicatorIsVisible = false;
             MoreAlertsIndicatorIsVisible = false;
             CanLoadMore = _loadedCount < _allAlerts.Count;
+        }
+
+        private void LoadSpecificArea(List<AlertRecord> alerts)
+        {
+            Alerts.Clear();
+            foreach (AlertRecord alert in alerts)
+            {
+                Alerts.Add(alert);
+            }
+
+            AlertsIndicatorIsVisible = false;
+            MoreAlertsIndicatorIsVisible = false;
+            CanLoadMore = false;
         }
 
         private async void OpenDetail(AlertRecord alert)
@@ -178,6 +228,20 @@ namespace WeatherApp.ViewModel
                 return;
 
             await Application.Current.MainPage.Navigation.PushAsync(new AlertDetailPage(alert));
-        }       
+        }
+
+        private async Task OnSpecificRegionChangedAsync()
+        {
+            await Task.Delay(100);
+            List<AlertRecord> alertRecordsSpecificArea = new List<AlertRecord>();
+            foreach(AlertRecord alert in _allAlerts)
+            {
+                if (alert.SpecificAreaDesc.Trim() == SelectedRegionSpecific)
+                {
+                    alertRecordsSpecificArea.Add(alert);
+                }
+            }
+            LoadSpecificArea(alertRecordsSpecificArea);
+        }
     }
 }

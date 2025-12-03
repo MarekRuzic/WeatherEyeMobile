@@ -26,7 +26,14 @@
                 SelectedItem="{Binding SelectedRegion}"
                 FontSize="18"
                 Margin="0,0,0,20"/>
-            
+
+            <material:PickerField 
+                Title="Vyberte oblast kraje"
+                ItemsSource="{Binding RegionsSpecific}"
+                SelectedItem="{Binding SelectedRegionSpecific}"
+                FontSize="18"
+                Margin="0,0,0,20"/>
+
 
             <VerticalStackLayout IsVisible="{Binding AlertsIndicatorIsVisible}">
                 <ActivityIndicator IsRunning="True" IsVisible="True"/>
@@ -71,12 +78,16 @@
                                            FontSize="18"
                                            FontAttributes="Bold"
                                            TextColor="#0F172A"
-                                           MaximumWidthRequest="3000"
+                                           WidthRequest="600"
                                            HorizontalTextAlignment="Start"/>
 
                                         <Label Text="{Binding AreaDesc}"
                                            FontSize="14"
                                            TextColor="#475569"/>
+
+                                        <Label Text="{Binding SpecificAreaDesc}"
+                                            FontSize="12"
+                                            TextColor="#475569"/>
 
                                         <HorizontalStackLayout>
                                             <Label Text="Od: "/>

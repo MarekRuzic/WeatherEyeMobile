@@ -61,6 +61,28 @@
 
             </Frame>
 
+            <!-- Seznam preferencí -->
+            <Frame CornerRadius="14"
+                   Padding="20"
+                   HasShadow="True"
+                    BackgroundColor="White">
+
+                <VerticalStackLayout Spacing="16">
+
+                    <Label Text="Preference upozornění"
+                            FontSize="20"
+                            FontAttributes="Bold"/>
+
+                    <Button Text="Zobrazit moje prefence"
+                            HeightRequest="44"
+                            CornerRadius="10"
+                            StyleClass="ElevatedButton"
+                            FontSize="15"
+                            TextColor="White"
+                            Clicked="AlertPreferenceButtonClicked"/>
+                </VerticalStackLayout>
+            </Frame>
+
 
             <!-- SEKCE: OBLAST -->
             <Frame CornerRadius="14"

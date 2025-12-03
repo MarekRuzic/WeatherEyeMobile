@@ -60,5 +60,27 @@ namespace WeatherApp.Services
                 return new List<string>();
             }
         }
+
+        public async Task<List<string>> GetAvailableRegionsSpecificAsync(string selectedRegion)
+        {
+            try
+            {
+                string url = $"CAP/AvailableSpecificRegions?AreaDesc={selectedRegion}";
+                string json = await _httpClient.GetStringAsync(url);
+
+                var result = JsonSerializer.Deserialize<List<string>>(json);
+
+                if (result == null)
+                {
+                    return new List<string>();
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return new List<string>();
+            }
+        }
     }
 }

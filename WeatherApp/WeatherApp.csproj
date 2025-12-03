@@ -43,7 +43,7 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\weather_icon_background_512.png"/>
+		<MauiIcon Include="Resources\AppIcon\weather_icon_background_512.png" />
 		
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\AppIcon\weather_icon_transparent.png" Color="#F3F7FF" />
@@ -82,6 +82,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="AlertPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="AlertPreferencesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="FirstTimeLoginPage.xaml">
