@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.Json;
 using WeatherApp.Model;
 using WeatherApp.ModelAuth;
+using WeatherApp.Services;
 using WeatherApp.ViewModel;
 
 namespace WeatherApp

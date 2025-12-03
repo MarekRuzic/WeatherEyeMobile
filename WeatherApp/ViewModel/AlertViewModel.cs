@@ -87,6 +87,7 @@ namespace WeatherApp.ViewModel
 
             Task.Run(async () =>
             {
+                await Task.Delay(100);  //TODO možná smazat
                 await LoadRegionsAsync();
 
                 // Načtení preferovaného regionu
