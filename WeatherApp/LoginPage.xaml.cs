@@ -64,7 +64,7 @@ public partial class LoginPage : ContentPage
         if (isLoggedInFirstTime)
 		{
             Preferences.Set("IsLoggedInFirstTime", false);
-            App.Current.MainPage = new NavigationPage(new FirstTimeLoginPage());
+            App.Current.MainPage = new NavigationPage(new FirstTimeLoginPage(false));
             return;
         }
         App.Current.MainPage = new NavigationPage(new MainTabbedPage());

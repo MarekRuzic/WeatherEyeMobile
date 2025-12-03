@@ -74,10 +74,12 @@ public partial class SettingsPage : ContentPage
     private async void NotificationButtonClicked(object sender, EventArgs e)
     {
         await DisplayAlert("Oznámení", "V případě, že máte notifikace povolení a stále Vám žádné nechodí, mohl nastast problém s připojením k databázi.\n\n" +
-            "Uložete prosím znovu vaše zvolené nastavení v tomto menu pomocí tlačítka dole na stránce ⬇️\n\n" +
+            "Uložete prosím znovu vaše zvolené nastavení v teď otevřeném menu pomocí tlačítka dole na stránce ⬇️\n\n" +
             "Poté by mělo vše fungovat 😁", "Ok");
 
-        // Toto už jde mimo uživatele - pouze pro testování
+        await Navigation.PushAsync(new FirstTimeLoginPage(true));
+
+        // Toto už jde mimo uživatele - pouze pro testování → TODO: smazat
 
         await CrossFirebaseCloudMessaging.Current.CheckIfValidAsync();
         var token = await CrossFirebaseCloudMessaging.Current.GetTokenAsync();

@@ -9,11 +9,28 @@ public partial class FirstTimeLoginPage : ContentPage
 {
     private readonly UserApiService _userApiService = new UserApiService();
     private readonly NotificationService _notificationService = new();
+    private readonly bool _openFromSettings;
 
     public FirstTimeLoginPage()
 	{
 		InitializeComponent();
 		PageLoad();
+        App.AppResumed += (s, e) => CheckNotification();
+    }
+
+    public FirstTimeLoginPage(bool openFromSettings)
+    {
+        InitializeComponent();
+        this._openFromSettings = openFromSettings;
+        if (openFromSettings)
+        {
+            SaveMobileTokenButton.Text = "Uložit pro opravení fungování notifikací";
+            CheckNotification();
+        }
+        else
+        {
+            PageLoad();
+        }
         App.AppResumed += (s, e) => CheckNotification();
     }
 
@@ -81,17 +98,6 @@ public partial class FirstTimeLoginPage : ContentPage
         return token;        
     }
 
-    private async void SaveTokenToJSON(string token)
-    {
-        FirebaseToken firebaseToken = new FirebaseToken(token);
-        string json = JsonSerializer.Serialize(firebaseToken, new JsonSerializerOptions { WriteIndented = true });
-        string filePath = Path.Combine(FileSystem.AppDataDirectory, "token.json");
-
-        await File.WriteAllTextAsync(filePath, json);
-
-        await DisplayAlert("Hotovo", $"Token uložen do:\n{filePath}", "OK");
-    }
-
     private async void OnClickGoToMainPage(object sender, EventArgs e)
     {
         SaveMobileTokenButton.IsVisible = false;
@@ -115,6 +121,11 @@ public partial class FirstTimeLoginPage : ContentPage
             }
         }
 
+        if (_openFromSettings)
+        {
+            await Navigation.PopAsync();
+            return;
+        }
         App.Current.MainPage = new NavigationPage(new MainTabbedPage());
     }    
 }
