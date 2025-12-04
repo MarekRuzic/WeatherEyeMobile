@@ -36,7 +36,8 @@
                                FontSize="24"
                                FontAttributes="Bold"
                                TextColor="#0F172A"                              
-                               MaximumWidthRequest="3000"
+                               MaximumWidthRequest="600"
+                               LineBreakMode="WordWrap"
                                HorizontalTextAlignment="Start"/>
 
                         <Label Text="{Binding Severity}"

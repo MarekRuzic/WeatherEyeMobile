@@ -12,7 +12,7 @@
             Spacing="20">
 
             <!-- NADPIS -->
-            <Label Text="Seznam platných nofikací"
+            <Label Text="Seznam upozornění uživatele"
                    FontSize="32"
                    FontAttributes="Bold"
                    TextColor="#1E293B"
@@ -20,56 +20,88 @@
                    Margin="0,20,0,10"/>
 
             <!-- COLLECTION VIEW -->
-            <CollectionView ItemsSource="{Binding WeatherItems}"
-                            SelectionMode="None"
-                            RemainingItemsThreshold="1"
-                            RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}">
+            <!-- Seznam alertů -->
+            <CollectionView ItemsSource="{Binding Alerts}"
+            SelectionMode="None">
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
 
                         <Frame Padding="15"
-                               Margin="0,0,0,15"
-                               CornerRadius="18"
-                               HasShadow="True"
-                               BackgroundColor="White">
+               Margin="0,0,0,12"
+               BackgroundColor="White"
+               CornerRadius="18"
+               HasShadow="True">
 
-                            <HorizontalStackLayout Spacing="15">
+                            <VerticalStackLayout Spacing="10">
 
-                                <!-- Ikona počasí -->
-                                <Image Source="{Binding Icon}"
-                                       WidthRequest="50"
-                                       HeightRequest="50"/>
+                                <!-- HEADER -->
+                                <HorizontalStackLayout Spacing="12">
 
-                                <!-- Obsah -->
-                                <VerticalStackLayout Spacing="3">
+                                    <!-- BAREVNÝ PRUH DLE SEVERITY -->
+                                    <BoxView WidthRequest="8"
+                             HeightRequest="90"
+                             VerticalOptions="Center"
+                             Color="{Binding SeverityColor}"
+                             CornerRadius="5"
+                             BackgroundColor="white"/>
 
-                                    <Label Text="{Binding Date, StringFormat='{0:dd.MM.yyyy}'}"
-                                           FontSize="20"
-                                           FontAttributes="Bold"/>
+                                    <!-- IKONA -->
+                                    <Image Source="{Binding Icon}"
+                           WidthRequest="40"
+                           HeightRequest="40"
+                           VerticalOptions="Center"/>
 
-                                    <HorizontalStackLayout Spacing="10">
-                                        <Label Text="{Binding TemperatureC, StringFormat='{0} °C'}"
-                                               FontSize="14"
-                                               TextColor="#0F172A"/>
-                                        <Label Text="{Binding TemperatureF, StringFormat='{0} °F'}"
-                                               FontSize="14"
-                                               TextColor="#64748B"/>
-                                    </HorizontalStackLayout>
+                                    <!-- TEXT -->
+                                    <VerticalStackLayout Spacing="2">
+                                        <Label Text="{Binding Event}"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#0F172A"
+                               WidthRequest="600"
+                                               LineBreakMode="WordWrap"
+                               HorizontalTextAlignment="Start"/>
 
-                                    <Label Text="{Binding Summary}"
-                                           FontSize="16"
-                                           TextColor="#2563EB"
-                                           FontAttributes="Bold"/>
+                                        <Label Text="{Binding AreaDesc}"
+                               FontSize="14"
+                               TextColor="#475569"/>
 
-                                </VerticalStackLayout>
+                                        <Label Text="{Binding SpecificAreaDesc}"
+                                FontSize="12"
+                                TextColor="#475569"/>
 
-                            </HorizontalStackLayout>
+                                        <HorizontalStackLayout>
+                                            <Label Text="Od: "/>
+                                            <Label Text="{Binding Onset}"/>
+                                        </HorizontalStackLayout>
+                                        <HorizontalStackLayout>
+                                            <HorizontalStackLayout.Triggers>
+                                                <DataTrigger TargetType="HorizontalStackLayout"
+                                                 Binding="{Binding Expires}"
+                                                 Value="{x:Null}">
+                                                    <Setter Property="IsVisible" Value="False"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="HorizontalStackLayout"
+                                        Binding="{Binding Expires}"
+                                        Value="0001-01-01T00:00:00">
+                                                    <Setter Property="IsVisible" Value="False"/>
+                                                </DataTrigger>
+                                            </HorizontalStackLayout.Triggers>
+                                            <Label Text="Do: "/>
+                                            <Label Text="{Binding Expires}"/>
+                                        </HorizontalStackLayout>
+                                    </VerticalStackLayout>
+                                </HorizontalStackLayout>
+                                <Button Text="Zobrazit detail"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenDetailCommand}"
+                            CommandParameter="{Binding}"/>
+                            </VerticalStackLayout>
 
                         </Frame>
 
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
+
             </CollectionView>
 
         </VerticalStackLayout>

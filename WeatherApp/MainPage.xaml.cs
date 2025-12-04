@@ -14,7 +14,7 @@ namespace WeatherApp
         public MainPage()
         {
             InitializeComponent();      
-            BindingContext = new WeatherListViewModel();
+            BindingContext = new MainPageViewModel();
         }
     }
 

@@ -13,5 +13,10 @@ namespace WeatherApp.Services
             BaseAddress = new Uri("https://api.weathereye.eu/"),
             Timeout = TimeSpan.FromSeconds(30)
         };
+
+        public void Help()
+        {
+
+        }
     }
 }
