@@ -6,49 +6,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WeatherApp.Model;
+using WeatherApp.Services;
 
 namespace WeatherApp.ViewModel
 {
     public class PreferencesViewModel : INotifyPropertyChanged
     {
+        private readonly UserApiService _userApiService = new UserApiService();
         public event PropertyChangedEventHandler PropertyChanged;
         public ObservableCollection<UserPreferenceModel> Preferences { get; set; } = new ObservableCollection<UserPreferenceModel>();
 
+        public List<UserPreferenceModel> UserPreferences = new List<UserPreferenceModel>();
+
+
         public PreferencesViewModel()
         {
-            LoadFakeData();
+            LoadUserPreferencesAsync();
         }
 
-        private void LoadFakeData()
+        private async void LoadUserPreferencesAsync()
+        {
+            UserPreferences.Clear();
+            UserPreferences = await _userApiService.GetPreferencesAsync();
+            LoadData(UserPreferences);
+        }
+
+        private void LoadData(List<UserPreferenceModel> userPreferences)
         {
             Preferences.Clear();
-
-            Preferences.Add(new UserPreferenceModel
+            foreach (var preference in userPreferences)
             {
-                userOid = "user0001",
-                preferenceOid = "pref001",
-                areaDesc = "Praha – východ",
-                emailNotification = true,
-                inAppNotification = true
-            });
-
-            Preferences.Add(new UserPreferenceModel
-            {
-                userOid = "user0001",
-                preferenceOid = "pref002",
-                areaDesc = "Středočeský kraj – bouřky",
-                emailNotification = false,
-                inAppNotification = true
-            });
-
-            Preferences.Add(new UserPreferenceModel
-            {
-                userOid = "user0001",
-                preferenceOid = "pref003",
-                areaDesc = "Ústecký kraj – silný vítr",
-                emailNotification = true,
-                inAppNotification = false
-            });
+                Preferences.Add(preference);
+            }            
         }
 
         private void OnPropertyChanged(string name) =>

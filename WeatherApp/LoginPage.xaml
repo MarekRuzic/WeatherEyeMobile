@@ -75,22 +75,20 @@
 
         <!-- SPODNÍ ODKAZY -->
         <VerticalStackLayout Grid.Row="2"
-                             Spacing="6"
+                             Spacing="3"
                              VerticalOptions="End"
                              HorizontalOptions="Center">
 
-            <Label Text="Zapomněli jste heslo?"
-                   TextColor="#555"
-                   FontSize="14" />
-
-            <HorizontalStackLayout Spacing="4">
-                <Label Text="Nemáte účet?"
+            
+            <Label Text="Nemáte účet?"
                        FontSize="14" />
-                <Label Text="Registrace"
+            <Button Text="Registrovat"
+                        BorderColor="Transparent"
+                        Background="Transparent"
                        FontSize="14"
                        TextColor="#3B82F6"
-                       FontAttributes="Bold" />
-            </HorizontalStackLayout>
+                       FontAttributes="Bold"
+                        Clicked="RegisterButton"/>
 
         </VerticalStackLayout>
 

@@ -69,4 +69,18 @@ public partial class LoginPage : ContentPage
         }
         App.Current.MainPage = new NavigationPage(new MainTabbedPage());
     }
+
+    private async void RegisterButton(object sender, EventArgs e)
+    {
+        try
+        {
+            Uri uri = new Uri("https://weathereye.eu/");
+            await Browser.Default.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
+        }
+        catch (Exception ex)
+        {
+           
+        }
+    
+    }
 }
