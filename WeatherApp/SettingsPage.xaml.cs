@@ -78,34 +78,8 @@ public partial class SettingsPage : ContentPage
             "Uložete prosím znovu vaše zvolené nastavení v teď otevřeném menu pomocí tlačítka dole na stránce ⬇️\n\n" +
             "Poté by mělo vše fungovat 😁", "Ok");
 
-        await Navigation.PushAsync(new FirstTimeLoginPage(true));
-
-        // Toto už jde mimo uživatele - pouze pro testování → TODO: smazat
-
-        await CrossFirebaseCloudMessaging.Current.CheckIfValidAsync();
-        var token = await CrossFirebaseCloudMessaging.Current.GetTokenAsync();
-        Console.WriteLine($"FCM token: {token}");
-        bool result = await DisplayAlert("FCM Token", token + "\n\n\nPřeje si daný token zkopírovat do schánky?", "Ano", "Ne");
-        if (result)
-        {
-            await Clipboard.Default.SetTextAsync(token);
-        }
-    }
-
-    private void SaveSettingsClicked(object sender, EventArgs e)
-    {
-        string region = ((SettingsViewModel)BindingContext).SelectedRegion;
-        string eventType = ((SettingsViewModel)BindingContext).SelectedEventType;
-        string threatLevel = ((SettingsViewModel)BindingContext).SelectedThreatLevel;
-        bool appNotificationsEnabled = AppNotificationCheck.IsChecked;
-        bool emailEnabled = EmailNotificationCheck.IsChecked;
-
-        DisplayAlert("Oznámení", "Region: " + region + "\n" +
-            "Event: " + eventType + "\n" +
-            "Nebezpečí: " + threatLevel + "\n" +
-            "App notifikace: " + (appNotificationsEnabled ? "Povolené" : "Zakázané") + "\n" +
-            "Email notifkace: " + (emailEnabled ? "Povolené" : "Zakázané"), "Ok");
-    }
+        await Navigation.PushAsync(new FirstTimeLoginPage(true));        
+    }    
 
     private async void AlertPreferenceButtonClicked(object sender, EventArgs e)
     {

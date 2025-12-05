@@ -115,7 +115,7 @@ namespace WeatherApp.ViewModel
             }
         }
 
-        
+        public bool IsInitialized { get; private set; } = false;
 
 
         public AlertViewModel()
@@ -129,27 +129,17 @@ namespace WeatherApp.ViewModel
             {
                 if (!IsRefreshing) 
                     await RefreshAsync();
-            });
-
-            _ = PageLoadAsync();
+            });            
         }
 
-        private async Task PageLoadAsync()
+        public async Task InitializeAsync()
         {
-            await Task.Delay(100);  //TODO možná smazat
+            if (IsInitialized) return;
+            IsInitialized = true;
+
             await LoadRegionsAsync();
-
-            // Načtení preferovaného regionu
-            SelectedRegion = "";
-            SelectedRegionSpecific = "";
-            string savedRegion = Preferences.Get("SelectedRegion", null);
-            if (!string.IsNullOrEmpty(savedRegion) && Regions.Contains(savedRegion))
-            {
-                SelectedRegion = savedRegion;
-            }
-
-            await LoadAlertsAsync();    
-        }
+            await LoadAlertsAsync();
+        }       
 
         private async Task RefreshAsync()
         {

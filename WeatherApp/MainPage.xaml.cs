@@ -11,10 +11,21 @@ namespace WeatherApp
 {
     public partial class MainPage : ContentPage
     {
+        private readonly MainPageViewModel _viewModel;
+
         public MainPage()
         {
             InitializeComponent();      
-            BindingContext = new MainPageViewModel();
+            _viewModel = new MainPageViewModel();
+            BindingContext = _viewModel;
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (!_viewModel.IsInitialized)
+                await _viewModel.InitializeAsync();
         }
     }
 

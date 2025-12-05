@@ -17,15 +17,19 @@ namespace WeatherApp.ViewModel
 
         private List<AlertRecord> _allAlerts = new List<AlertRecord>();
 
+        public bool IsInitialized { get; private set; }
+
         public MainPageViewModel()
         {
             _api = new WeatherApiService();
             OpenDetailCommand = new Command<AlertRecord>(OpenDetail);
-            PageLoadAsync();
         }
 
-        private async void PageLoadAsync()
+        public async Task InitializeAsync()
         {
+            if (IsInitialized) return;
+            IsInitialized = true;
+
             await LoadUserSpecificAlarmsAsync();
         }
 
