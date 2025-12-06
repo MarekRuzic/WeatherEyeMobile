@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 using WeatherApp.Services;
-using CommunityToolkit.Maui;
+using Plugin.Firebase.CloudMessaging;
 
 #if ANDROID
 using Plugin.Firebase.Core.Platforms.Android;
@@ -17,10 +17,9 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
-			.RegisterFirebaseServices()
+            .RegisterFirebaseServices()
 			.UseUraniumUI()
 			.UseUraniumUIMaterial()
-            .UseMauiCommunityToolkit()
             .ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

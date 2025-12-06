@@ -102,29 +102,36 @@ public partial class FirstTimeLoginPage : ContentPage
     {
         SaveMobileTokenButton.IsVisible = false;
         LoadingIndicator.IsVisible = true;
-        string token = await GetFirebaseToken();
-        //string token = "Muj_testToken";
-        bool result = await _userApiService.SaveMobAppIdAsync(token);
-        if (!result)
+        try
         {
-            result = await DisplayAlert("Problém s uložením údajů", "Při ukládání údajů k notifikacím došlo k chybě.\n\n" +
-                "Proto Vám zřejmě nebudou notifikace chodit.\n\n" +
-                "Doporučujeme si uložení opakovat!\n\n" +
-                "Případně můžete znovu tuto akci provést v nastavení.\n\n" +
-                "Přejete si opakovat uložení?", "Ano", "Ne");
-
-            if (result)
+            string token = await GetFirebaseToken();
+            //string token = "Muj_testToken";
+            bool result = await _userApiService.SaveMobAppIdAsync(token);
+            if (!result)
             {
-                SaveMobileTokenButton.IsVisible = true;
-                LoadingIndicator.IsVisible = false;
+                result = await DisplayAlert("Problém s uložením údajů", "Při ukládání údajů k notifikacím došlo k chybě.\n\n" +
+                    "Proto Vám zřejmě nebudou notifikace chodit.\n\n" +
+                    "Doporučujeme si uložení opakovat!\n\n" +
+                    "Případně můžete znovu tuto akci provést v nastavení.\n\n" +
+                    "Přejete si opakovat uložení?", "Ano", "Ne");
+
+                if (result)
+                {
+                    SaveMobileTokenButton.IsVisible = true;
+                    LoadingIndicator.IsVisible = false;
+                    return;
+                }
+            }
+
+            if (_openFromSettings)
+            {
+                await Navigation.PopAsync();
                 return;
             }
         }
-
-        if (_openFromSettings)
+        catch (Exception ex)
         {
-            await Navigation.PopAsync();
-            return;
+            await DisplayAlert("Chyba", "Při ukládání údajů k notifikacím došlo k chybě.", "OK");
         }
         App.Current.MainPage = new NavigationPage(new MainTabbedPage());
     }    

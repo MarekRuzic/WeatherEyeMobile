@@ -40,7 +40,7 @@
                                BackgroundColor="White"
                                HasShadow="True">
 
-                            <Grid RowDefinitions="Auto, Auto"
+                            <Grid RowDefinitions="Auto, Auto, Auto, Auto"
                                   ColumnDefinitions="*, Auto">
 
                                 <!-- Název oblasti -->
@@ -52,14 +52,43 @@
                                 <!-- Tlačítko Smazat -->
                                 <ImageButton Grid.Row="0" Grid.Column="1"
                                              Source="delete_icon.png"
-                                             WidthRequest="26"
-                                             HeightRequest="26"
+                                             WidthRequest="10"
+                                             HeightRequest="10"
                                              BackgroundColor="Transparent"
                                              Command="{Binding BindingContext.DeletePreferenceCommand, Source={x:Reference Name=PageRoot}}"
                                              CommandParameter="{Binding}" />
 
+                                <Label Grid.Row="1" Grid.Column="0"
+                                       Text="{Binding specificAreaDesc}"
+                                       FontSize="16"
+                                       TextColor="Black"
+                                       Margin="0,0,0,0"/>
+
+                                <VerticalStackLayout Grid.Row="2" Margin="0,15" Spacing="4">
+                                <Grid ColumnDefinitions="*,*"
+                                Padding="0,0">
+                                    <Label Text="Naléhavost:" FontSize="16" TextColor="#475569"/>
+                                    <Label Text="{Binding alertInfoCertaintyText}" FontSize="14"
+             Grid.Column="1"
+            HorizontalTextAlignment="End"
+            TextColor="#0F172A"/>
+                                </Grid>
+
+                                <BoxView HeightRequest="1"
+        BackgroundColor="#E5E7EB"/>
+
+                                <!-- Row 1 -->
+                                <Grid ColumnDefinitions="*,*"
+        Padding="0,0">
+                                    <Label Text="Závažnost:" FontSize="16" TextColor="#475569"/>
+                                    <Label Text="{Binding alertInfoSeverityText}" FontSize="14"
+            Grid.Column="1"
+            HorizontalTextAlignment="End"
+             TextColor="#0F172A"/>
+                                </Grid>
+                                </VerticalStackLayout>
                                 <!-- Notifikační režimy -->
-                                <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="6" Margin="0,10,0,0">
+                                <VerticalStackLayout Grid.Row="3" Grid.Column="0" Spacing="6" Margin="0,10,0,0">
 
                                     <HorizontalStackLayout Spacing="6">
                                         <material:CheckBox
@@ -70,7 +99,7 @@
                                             TextColor="Black"/>
                                     </HorizontalStackLayout>
 
-                                    <HorizontalStackLayout Spacing="6">
+                                    <HorizontalStackLayout Spacing="6" Margin="0,5">
                                         <material:CheckBox
                                             IsChecked="{Binding emailNotification}"
                                             TextFontSize="14"

@@ -30,24 +30,24 @@
                            VerticalOptions="Center"/>
 
                     <!-- TEXTY -->
-                    <VerticalStackLayout Spacing="4" VerticalOptions="Center">
+                    <VerticalStackLayout Spacing="4">
 
                         <Label Text="{Binding Event}"
                                FontSize="24"
                                FontAttributes="Bold"
                                TextColor="#0F172A"                              
-                               MaximumWidthRequest="600"
+                               MaximumWidthRequest="250"
                                LineBreakMode="WordWrap"
                                HorizontalTextAlignment="Start"/>
 
-                        <Label Text="{Binding Severity}"
+                        <Label Text="{Binding SeverityText}"
                                FontSize="16"
                                TextColor="#475569"/>
 
                         <Label Text="{Binding AreaDesc}"
                                FontSize="14"
                                TextColor="#64748B"
-                               WidthRequest="200"
+                               WidthRequest="250"
                                LineBreakMode="WordWrap"
                                HorizontalTextAlignment="Start"/>
                     </VerticalStackLayout>
@@ -107,7 +107,7 @@
                     <Grid ColumnDefinitions="*,*"
                          Padding="0,0">
                         <Label Text="Určitost:" FontSize="16" TextColor="#475569"/>
-                        <Label Text="{Binding Urgency}" FontSize="14"
+                        <Label Text="{Binding UrgencyText}" FontSize="14"
                             Grid.Column="1"
                             HorizontalTextAlignment="End"
                             TextColor="#0F172A"/>
@@ -120,7 +120,7 @@
                     <Grid ColumnDefinitions="*,*"
                             Padding="0,0">
                         <Label Text="Naléhavost:" FontSize="16" TextColor="#475569"/>
-                        <Label Text="{Binding Certainty}" FontSize="14"
+                        <Label Text="{Binding CertaintyText}" FontSize="14"
                                  Grid.Column="1"
                                 HorizontalTextAlignment="End"
                                 TextColor="#0F172A"/>
@@ -133,7 +133,7 @@
                     <Grid ColumnDefinitions="*,*"
                             Padding="0,0">
                         <Label Text="Závažnost:" FontSize="16" TextColor="#475569"/>
-                        <Label Text="{Binding Severity}" FontSize="14"
+                        <Label Text="{Binding SeverityText}" FontSize="14"
                                 Grid.Column="1"
                                 HorizontalTextAlignment="End"
                                  TextColor="#0F172A"/>

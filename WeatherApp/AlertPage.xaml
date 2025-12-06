@@ -94,7 +94,7 @@
                                            FontSize="18"
                                            FontAttributes="Bold"
                                            TextColor="#0F172A"
-                                           WidthRequest="600"
+                                           WidthRequest="250"
                                            LineBreakMode="WordWrap"
                                            HorizontalTextAlignment="Start"/>
 

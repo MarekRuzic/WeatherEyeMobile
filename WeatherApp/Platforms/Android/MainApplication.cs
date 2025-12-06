@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Runtime;
+using Plugin.Firebase.Core.Platforms.Android;
 
 namespace WeatherApp;
 
@@ -11,5 +12,10 @@ public class MainApplication : MauiApplication
 	{
 	}
 
-	protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
+    public override void OnCreate()
+    {
+        base.OnCreate();        
+    }
+
+    protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();	
 }

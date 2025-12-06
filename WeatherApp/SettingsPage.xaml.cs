@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Maui.Core.Views;
-using Plugin.Firebase.CloudMessaging;
+﻿using Plugin.Firebase.CloudMessaging;
 using System.Text.Json;
 using WeatherApp.Model;
 using WeatherApp.Services;
