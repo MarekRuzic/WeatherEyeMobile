@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 google-services.json
 GoogleService-Info.plist
+/WeatherApp/Platforms/Android/MainActivity.cs
