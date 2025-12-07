@@ -12,8 +12,9 @@ public partial class AlertPreferencesPage : ContentPage
 
     private async void AddPreferenceClicked(object sender, EventArgs e)
     {
-        bool result = await DisplayAlert("Preference", "Mobilní aplikace neumí mìnit ani pøidát nové prefence je potøeba pøejít na webovou èást aplikace.\n\n" +
-            "Pøejete si pokraèovat?", "Yes", "No");
+        bool result = await DisplayAlert("Preference", "MobilnÃ­ aplikace neumÃ­ mÄ›nit ani pÅ™idat novÃ© prefence je potÅ™eba " +
+                                                       "pÅ™ejÃ­t na webovou strÃ¡nku aplikace.\n\n" +
+            "PÅ™ejete si pokraÄovat?", "Ano", "Ne");
 
         if (!result) return;
 
