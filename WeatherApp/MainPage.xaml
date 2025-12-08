@@ -24,11 +24,25 @@
                 <Label Text="Probíhá načítání dat..." HorizontalTextAlignment="Center"/>
             </VerticalStackLayout>
             
-            <Label Text="Nebyly nalezeny žádné upozornění pro Vámi zvolenou oblast"
-                   FontSize="28"
-                   HorizontalTextAlignment="Center"
-                   Margin="0,20,0,10"
-                   IsVisible="{Binding NothingLabelVisible}"/>
+            <Frame CornerRadius="14"
+                   Padding="20"
+                   HasShadow="True"
+                   BackgroundColor="White"
+                   IsVisible="{Binding NothingLabelVisible}" Margin="0, 30, 0, 0">
+                <VerticalStackLayout >
+                    <Image Source="noresults.png"
+                           WidthRequest="120"
+                           HeightRequest="120"
+                           Opacity="0.9" />
+                
+                    <Label Text="Nebyly nalezeny žádné upozornění pro Vámi zvolenou oblast"
+                       FontSize="18"
+                       HorizontalTextAlignment="Center"
+                       Margin="0,20,0,10"/>
+                </VerticalStackLayout>
+            </Frame>
+            
+            
 
             <!-- COLLECTION VIEW -->
             <!-- Seznam alertů -->
