@@ -17,7 +17,8 @@ public partial class AlertPage : ContentPage
 	protected override async void OnAppearing()
 	{
 		base.OnAppearing();
-		
+
+		await Task.Delay(100);
 		if (!_viewModel.IsInitialized)
 		{
 			await _viewModel.InitializeAsync();

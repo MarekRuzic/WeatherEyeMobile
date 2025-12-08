@@ -24,6 +24,7 @@ namespace WeatherApp
         {
             base.OnAppearing();
 
+            await Task.Delay(100);
             if (!_viewModel.IsInitialized)
                 await _viewModel.InitializeAsync();
         }

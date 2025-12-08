@@ -18,6 +18,17 @@
                    TextColor="#1E293B"
                    HorizontalTextAlignment="Center"
                    Margin="0,20,0,10"/>
+            
+            <VerticalStackLayout IsVisible="{Binding AlertsIndicatorIsVisible}">
+                <ActivityIndicator IsRunning="True" IsVisible="True"/>
+                <Label Text="Probíhá načítání dat..." HorizontalTextAlignment="Center"/>
+            </VerticalStackLayout>
+            
+            <Label Text="Nebyly nalezeny žádné upozornění pro Vámi zvolenou oblast"
+                   FontSize="28"
+                   HorizontalTextAlignment="Center"
+                   Margin="0,20,0,10"
+                   IsVisible="{Binding NothingLabelVisible}"/>
 
             <!-- COLLECTION VIEW -->
             <!-- Seznam alertů -->

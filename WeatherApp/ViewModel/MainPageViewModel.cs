@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,20 @@ namespace WeatherApp.ViewModel
         {
             _api = new WeatherApiService();
             OpenDetailCommand = new Command<AlertRecord>(OpenDetail);
+        }
+        
+        private bool _nothingLabelVisible = true;
+        public bool NothingLabelVisible
+        {
+            get => _nothingLabelVisible;
+            set { _nothingLabelVisible = value; OnPropertyChanged(nameof(NothingLabelVisible)); }
+        }
+        
+        private bool _alertsIndicatorIsVisible = false;
+        public bool AlertsIndicatorIsVisible
+        {
+            get => _alertsIndicatorIsVisible;
+            set { _alertsIndicatorIsVisible = value; OnPropertyChanged(nameof(AlertsIndicatorIsVisible)); }
         }
 
         public async Task InitializeAsync()
@@ -54,11 +69,18 @@ namespace WeatherApp.ViewModel
                     alert.Icon ??= "weather.png";
                     Alerts.Add(alert);
                 }
+                
+                if (_allAlerts.Count <= 0)  NothingLabelVisible = true;
+                AlertsIndicatorIsVisible = false;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"API error: {ex}");
             }
         }
+        
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string name) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 }

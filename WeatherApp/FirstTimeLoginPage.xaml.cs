@@ -133,6 +133,8 @@ public partial class FirstTimeLoginPage : ContentPage
         {
             await DisplayAlert("Chyba", "Při ukládání údajů k notifikacím došlo k chybě.", "OK");
         }
-        App.Current.MainPage = new NavigationPage(new MainTabbedPage());
+        //App.Current.MainPage = new NavigationPage(new MainTabbedPage());
+        await Navigation.PushAsync(new MainTabbedPage());
+        Navigation.RemovePage(this);
     }    
 }
